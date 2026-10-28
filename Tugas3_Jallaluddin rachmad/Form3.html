@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="light">
+  <meta name="theme-color" content="#1a0f0b">
+  <title>Form Peminjaman Buku Perpustakaan</title>
+  <style>
+    /* ==========================================================
+       1. DESIGN TOKENS
+       Classic library palette: ivory paper, burgundy leather,
+       aged brass. Serif for headings, sans for form UI.
+       ========================================================== */
+    :root {
+      color-scheme: light;
+
+      /* Ink */
+      --ink: #251a13;
+      --ink-soft: #54453a;
+      --ink-faint: #75654f;
+
+      /* Paper */
+      --ivory: #fbf6ea;
+      --paper: #f3ead6;
+      --field: #fffdf7;
+
+      /* Accents */
+      --burgundy: #6e1c2a;
+      --burgundy-deep: #46101a;
+      --brass: #a68a4b;
+      --gold: #d9b86f;
+      --forest: #2f5a40;
+      --cream: #f7ecd2;
+      --cream-muted: #d6c6a2;
+      --danger: #a3322f;
+
+      /* Lines & effects */
+      --line: #d3c29d;
+      --line-strong: #a89268;
+      --ring: rgba(110, 28, 42, .2);
+
+      --radius-card: 18px;
+      --radius-field: 10px;
+      --shadow-card: 0 1px 0 rgba(255, 255, 255, .6) inset,
+                     0 0 0 1px rgba(166, 138, 75, .5),
+                     0 40px 80px -24px rgba(0, 0, 0, .75);
+
+      --field-height: 3.3rem;
+      --gap: 1.25rem;
+
+      --ease: cubic-bezier(.22, .8, .28, 1);
+      --t-fast: 160ms;
+      --t-base: 260ms;
+
+      --serif: "Palatino Linotype", "Book Antiqua", Palatino, "Iowan Old Style", Georgia, "Times New Roman", serif;
+      --sans: "Segoe UI Variable Text", "Segoe UI", "Helvetica Neue", Arial, system-ui, sans-serif;
+
+      --tick-dark: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%2346101a' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3.5 8.5l3 3 6-7'/%3E%3C/svg%3E");
+      --tick-light: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%23f7ecd2' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3.5 8.5l3 3 6-7'/%3E%3C/svg%3E");
+    }
+
+    /* ==========================================================
+       2. BASE
+       ========================================================== */
+    *, *::before, *::after { box-sizing: border-box; }
+    html { -webkit-text-size-adjust: 100%; }
+
+    body {
+      position: relative;
+      isolation: isolate;
+      margin: 0;
+      min-height: 100vh;
+      min-height: 100dvh;
+      overflow-x: hidden;
+      font-family: var(--sans);
+      font-size: 1rem;
+      line-height: 1.6;
+      color: var(--ink);
+      background: #1a0f0b;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ==========================================================
+       3. ANIMATED BACKGROUND
+       Calm mahogany with slow candlelight pools (transform only).
+       ========================================================== */
+    .backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: -3;
+      overflow: hidden;
+      background:
+        radial-gradient(90% 70% at 50% 0%, #38201a, transparent 70%),
+        linear-gradient(160deg, #1a0f0b, #22140e 50%, #101812);
+    }
+    .backdrop::before {
+      content: "";
+      position: absolute;
+      inset: -50%;
+      background: linear-gradient(115deg, transparent 34%, rgba(110, 28, 42, .32) 45%, rgba(217, 184, 111, .16) 54%, rgba(47, 90, 64, .22) 62%, transparent 72%);
+      animation: sweep 50s ease-in-out infinite alternate;
+    }
+    .backdrop span { position: absolute; border-radius: 50%; will-change: transform; }
+    .backdrop span:nth-child(1) {
+      width: 58vmax; height: 58vmax; left: -16vmax; top: -22vmax;
+      background: radial-gradient(circle, rgba(214, 150, 62, .32), transparent 68%);
+      animation: drift-a 54s ease-in-out infinite alternate;
+    }
+    .backdrop span:nth-child(2) {
+      width: 52vmax; height: 52vmax; right: -16vmax; top: -8vmax;
+      background: radial-gradient(circle, rgba(110, 28, 42, .46), transparent 68%);
+      animation: drift-b 60s ease-in-out infinite alternate;
+    }
+    .backdrop span:nth-child(3) {
+      width: 60vmax; height: 60vmax; left: 16vmax; bottom: -32vmax;
+      background: radial-gradient(circle, rgba(47, 90, 64, .4), transparent 68%);
+      animation: drift-c 58s ease-in-out infinite alternate;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      background-image:
+        repeating-linear-gradient(45deg, rgba(217, 184, 111, .045) 0 1px, transparent 1px 22px),
+        repeating-linear-gradient(-45deg, rgba(217, 184, 111, .045) 0 1px, transparent 1px 22px);
+      -webkit-mask-image: radial-gradient(ellipse at 50% 40%, #000 10%, transparent 75%);
+      mask-image: radial-gradient(ellipse at 50% 40%, #000 10%, transparent 75%);
+    }
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+      background: radial-gradient(ellipse at center, transparent 50%, rgba(4, 2, 1, .7));
+    }
+
+    @keyframes sweep   { from { transform: translate3d(-10%, -5%, 0) rotate(-4deg); } to { transform: translate3d(10%, 5%, 0) rotate(4deg); } }
+    @keyframes drift-a { from { transform: translate3d(0, 0, 0) scale(1); }   to { transform: translate3d(14vmax, 10vmax, 0) scale(1.15); } }
+    @keyframes drift-b { from { transform: translate3d(0, 0, 0) scale(1.1); } to { transform: translate3d(-12vmax, 14vmax, 0) scale(.95); } }
+    @keyframes drift-c { from { transform: translate3d(0, 0, 0) scale(1); }   to { transform: translate3d(-16vmax, -10vmax, 0) scale(1.12); } }
+
+    /* ==========================================================
+       4. PAGE & CARD
+       ========================================================== */
+    .page {
+      min-height: 100vh;
+      min-height: 100dvh;
+      display: grid;
+      place-items: center;
+      padding: clamp(1.25rem, 4vw, 3.25rem);
+    }
+
+    .card {
+      position: relative;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      width: min(100%, 68rem);
+      overflow: hidden;
+      border-radius: var(--radius-card);
+      background:
+        repeating-linear-gradient(0deg, rgba(120, 90, 40, .018) 0 1px, transparent 1px 3px),
+        radial-gradient(120% 70% at 0% 0%, rgba(255, 255, 255, .55), transparent 60%),
+        linear-gradient(180deg, var(--ivory), var(--paper));
+      box-shadow: var(--shadow-card);
+      animation: card-in .9s var(--ease) both;
+    }
+    @keyframes card-in { from { opacity: 0; transform: translateY(18px) scale(.985); } }
+
+    /* Single hairline inner frame */
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: .7rem;
+      z-index: 2;
+      border: 1px solid rgba(166, 138, 75, .45);
+      border-radius: calc(var(--radius-card) - 6px);
+      pointer-events: none;
+    }
+
+    /* ==========================================================
+       5. ASIDE (burgundy leather, brand, title, stepper)
+       ========================================================== */
+    .aside {
+      position: relative;
+      isolation: isolate;
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+      padding: clamp(1.9rem, 4.5vw, 2.75rem);
+      color: var(--cream);
+      background:
+        radial-gradient(rgba(255, 255, 255, .04) 1px, transparent 1.6px) 0 0 / 7px 7px,
+        linear-gradient(165deg, #5e1925, #3f0f18 60%, #290a10);
+    }
+
+    .aside::after {
+      content: "";
+      position: absolute;
+      z-index: -1;
+      right: -7rem;
+      bottom: -7rem;
+      width: 24rem;
+      height: 24rem;
+      border-radius: 50%;
+      background: repeating-radial-gradient(circle, transparent 0 20px, rgba(217, 184, 111, .14) 21px 22px);
+      -webkit-mask-image: radial-gradient(circle, #000 25%, transparent 70%);
+      mask-image: radial-gradient(circle, #000 25%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .brand { display: flex; align-items: center; gap: .9rem; }
+    .brand__mark {
+      display: grid;
+      place-items: center;
+      flex: none;
+      width: 3.1rem;
+      height: 3.1rem;
+      color: var(--gold);
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 30%, #7a2230, #3a0d16);
+      box-shadow: 0 0 0 1.5px var(--gold), 0 0 0 4px #3a0d16, 0 0 0 5px rgba(217, 184, 111, .55), 0 8px 18px -6px rgba(0, 0, 0, .7);
+    }
+    .brand__mark svg { width: 1.4rem; height: 1.4rem; }
+    .brand__name { margin: 0; font-family: var(--serif); font-size: 1.2rem; font-weight: 700; line-height: 1.2; color: #fff3d6; }
+    .brand__sub  { margin: 0; font-size: .8125rem; color: var(--cream-muted); }
+
+    .card__title {
+      margin: 0 0 .8rem;
+      font-family: var(--serif);
+      font-size: clamp(1.9rem, 4.2vw, 2.5rem);
+      font-weight: 700;
+      line-height: 1.1;
+      letter-spacing: -.01em;
+      color: #fff3d6;
+    }
+    .card__title::after {
+      content: "";
+      display: block;
+      width: 3.5rem;
+      height: 2px;
+      margin-top: 1rem;
+      background: var(--gold);
+    }
+    .card__lead { margin: 0; max-width: 28rem; font-size: .975rem; color: var(--cream-muted); }
+
+    /* Stepper (live completion; needs :has()) */
+    .progress { display: none; }
+    @supports selector(:has(*)) { .progress { display: block; } }
+
+    .progress__title { margin: 0 0 1.1rem; font-size: .8125rem; font-weight: 600; letter-spacing: .02em; color: var(--gold); }
+
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+    .step {
+      position: relative;
+      display: grid;
+      grid-template-columns: 1.5rem minmax(0, 1fr);
+      column-gap: .9rem;
+      align-items: center;
+    }
+    .step::before {
+      content: "";
+      grid-row: 1 / 3;
+      width: 1.5rem;
+      height: 1.5rem;
+      border: 1.5px solid rgba(217, 184, 111, .55);
+      border-radius: 50%;
+      background: transparent center / 68% no-repeat;
+      transition: background-color var(--t-base) var(--ease), border-color var(--t-base) var(--ease);
+    }
+    .step__name { font-size: .9rem; font-weight: 600; color: var(--cream-muted); transition: color var(--t-base) var(--ease); }
+    .step__desc { font-size: .78rem; color: rgba(214, 198, 162, .8); }
+
+    .card:has(#nama:valid):has(#identitas:valid):has(#kelas:valid):has(#alamat:valid) .step--peminjam .step__name,
+    .card:has(#buku:valid):has(#kategori:valid):has(#jumlah:valid) .step--buku .step__name,
+    .card:has(#pinjam:valid):has(#kembali:valid) .step--jadwal .step__name,
+    .card:has(#setuju:checked) .step--setuju .step__name { color: #fff3d6; }
+
+    .card:has(#nama:valid):has(#identitas:valid):has(#kelas:valid):has(#alamat:valid) .step--peminjam::before,
+    .card:has(#buku:valid):has(#kategori:valid):has(#jumlah:valid) .step--buku::before,
+    .card:has(#pinjam:valid):has(#kembali:valid) .step--jadwal::before,
+    .card:has(#setuju:checked) .step--setuju::before {
+      border-color: var(--gold);
+      background-color: var(--gold);
+      background-image: var(--tick-dark);
+    }
+
+    /* ==========================================================
+       6. FORM PANEL & GROUPS
+       ========================================================== */
+    .panel { padding: clamp(1.9rem, 4.5vw, 3rem); }
+    .form  { display: grid; gap: 2.5rem; }
+
+    .group {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--gap);
+      margin: 0;
+      padding: 0;
+      border: 0;
+    }
+
+    .group__head {
+      grid-column: 1 / -1;
+      display: flex;
+      align-items: center;
+      gap: .95rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--line);
+    }
+    .group__icon {
+      display: grid;
+      place-items: center;
+      flex: none;
+      width: 2.6rem;
+      height: 2.6rem;
+      color: var(--burgundy);
+      background: rgba(110, 28, 42, .07);
+      border: 1px solid rgba(110, 28, 42, .22);
+      border-radius: 12px;
+    }
+    .group__icon svg { width: 1.3rem; height: 1.3rem; }
+    .group__title { margin: 0; font-family: var(--serif); font-size: 1.3rem; font-weight: 700; line-height: 1.2; color: var(--burgundy); }
+    .group__desc  { margin: .1rem 0 0; font-size: .85rem; color: var(--ink-soft); }
+
+    .field { min-width: 0; margin: 0; padding: 0; border: 0; }
+    .field--full { grid-column: 1 / -1; }
+
+    .field__label {
+      display: block;
+      margin-bottom: .5rem;
+      font-size: .875rem;
+      font-weight: 600;
+      color: var(--ink);
+      transition: color var(--t-base) var(--ease);
+    }
+    .field:focus-within > .field__label { color: var(--burgundy); }
+
+    .field__hint { margin: .5rem 0 0; font-size: .8125rem; line-height: 1.4; color: var(--ink-soft); }
+
+    /* ==========================================================
+       7. INPUTS, SELECT, TEXTAREA, DATE
+       ========================================================== */
+    .control { position: relative; }
+
+    .control__icon,
+    .control__ok {
+      position: absolute;
+      top: calc(var(--field-height) / 2);
+      width: 1.15rem;
+      height: 1.15rem;
+      translate: 0 -50%;
+      pointer-events: none;
+    }
+    .control__icon { left: 1rem; color: var(--ink-faint); transition: color var(--t-base) var(--ease); }
+    .control:focus-within .control__icon { color: var(--burgundy); }
+
+    .control__ok {
+      right: 1rem;
+      color: var(--forest);
+      opacity: 0;
+      scale: .6;
+      transition: opacity var(--t-base) var(--ease), scale var(--t-base) var(--ease);
+    }
+
+    .input,
+    .select,
+    .textarea {
+      display: block;
+      width: 100%;
+      min-height: var(--field-height);
+      padding: 0 1rem;
+      font: inherit;
+      color: var(--ink);
+      background-color: var(--field);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-field);
+      box-shadow: 0 1px 2px rgba(80, 55, 25, .06);
+      outline: 0;
+      transition: border-color var(--t-base) var(--ease),
+                  box-shadow var(--t-base) var(--ease),
+                  background-color var(--t-base) var(--ease);
+    }
+    .input--icon { padding-left: 2.85rem; }
+    .input--text { padding-right: 2.75rem; }
+
+    .input--date { -webkit-appearance: none; appearance: none; text-align: left; }
+    .input--date::-webkit-calendar-picker-indicator { cursor: pointer; opacity: .7; }
+
+    .input::placeholder,
+    .textarea::placeholder { color: var(--ink-faint); opacity: 1; }
+
+    .input:hover,
+    .select:hover,
+    .textarea:hover { border-color: var(--line-strong); }
+
+    .input:focus,
+    .select:focus,
+    .textarea:focus {
+      border-color: var(--burgundy);
+      box-shadow: 0 0 0 4px var(--ring), 0 1px 2px rgba(80, 55, 25, .06);
+    }
+
+    .input--text:valid:not(:placeholder-shown) ~ .control__ok { opacity: 1; scale: 1; }
+
+    @supports selector(:user-invalid) {
+      .input:user-invalid,
+      .select:user-invalid,
+      .textarea:user-invalid { border-color: var(--danger); box-shadow: 0 0 0 3px rgba(163, 50, 47, .15); }
+    }
+
+    .input:-webkit-autofill {
+      -webkit-text-fill-color: var(--ink);
+      caret-color: var(--ink);
+      box-shadow: 0 0 0 100px #fff6e0 inset;
+    }
+    .input:-webkit-autofill:focus { box-shadow: 0 0 0 100px #fff6e0 inset, 0 0 0 4px var(--ring); }
+
+    .select {
+      padding-right: 2.75rem;
+      cursor: pointer;
+      appearance: none;
+      -webkit-appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='none' stroke='%236e1c2a' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 8l5 5 5-5'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 1rem center;
+      background-size: 1.1rem;
+    }
+    .select option { background: var(--ivory); color: var(--ink); }
+
+    .textarea { min-height: 7.5rem; padding: .9rem 1rem; line-height: 1.55; resize: vertical; }
+
+    /* ==========================================================
+       8. CONSENT
+       Native checkbox covers the label (opacity 0), so it stays
+       keyboard and screen-reader accessible.
+       ========================================================== */
+    .choice { position: relative; }
+    .choice__input {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      opacity: 0;
+      cursor: pointer;
+    }
+    .choice__label {
+      display: flex;
+      align-items: flex-start;
+      gap: .9rem;
+      padding: 1.05rem 1.2rem;
+      font-size: .95rem;
+      line-height: 1.5;
+      color: var(--ink-soft);
+      background: var(--field);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-field);
+      box-shadow: 0 1px 2px rgba(80, 55, 25, .06);
+      transition: background-color var(--t-base) var(--ease),
+                  border-color var(--t-base) var(--ease),
+                  color var(--t-base) var(--ease),
+                  transform var(--t-fast) var(--ease);
+    }
+    .choice__label::before {
+      content: "";
+      flex: none;
+      width: 1.3rem;
+      height: 1.3rem;
+      margin-top: .1rem;
+      border: 1.5px solid var(--line-strong);
+      border-radius: 5px;
+      background: var(--field) center / 72% no-repeat;
+      transition: background-color var(--t-base) var(--ease), border-color var(--t-base) var(--ease);
+    }
+    .choice__input:hover + .choice__label { border-color: var(--line-strong); }
+    .choice__input:active + .choice__label { transform: scale(.992); }
+    .choice__input:checked + .choice__label {
+      color: var(--ink);
+      background: rgba(110, 28, 42, .045);
+      border-color: var(--burgundy);
+    }
+    .choice__input:checked + .choice__label::before {
+      border-color: var(--burgundy);
+      background-color: var(--burgundy);
+      background-image: var(--tick-light);
+    }
+    .choice__input:focus-visible + .choice__label { outline: 2px solid var(--burgundy); outline-offset: 3px; }
+
+    /* ==========================================================
+       9. BUTTONS
+       ========================================================== */
+    .form__actions { display: flex; flex-wrap: wrap; gap: .8rem; }
+
+    .btn {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: .65rem;
+      min-height: 3.5rem;
+      padding: 0 1.8rem;
+      overflow: hidden;
+      font: inherit;
+      font-size: .975rem;
+      font-weight: 600;
+      letter-spacing: .01em;
+      cursor: pointer;
+      border: 0;
+      border-radius: var(--radius-field);
+      transition: transform var(--t-base) var(--ease),
+                  box-shadow var(--t-base) var(--ease),
+                  background-color var(--t-base) var(--ease),
+                  background-position 900ms var(--ease);
+    }
+    .btn:focus-visible { outline: 3px solid var(--forest); outline-offset: 3px; }
+
+    .btn--primary {
+      flex: 1 1 14rem;
+      color: #fff3d6;
+      text-shadow: 0 1px 1px rgba(0, 0, 0, .4);
+      background: linear-gradient(110deg, #5a1522, #7a2232, #93404d, #7a2232, #5a1522);
+      background-size: 300% 100%;
+      box-shadow: inset 0 0 0 1px rgba(217, 184, 111, .55),
+                  inset 0 1px 0 rgba(255, 255, 255, .2),
+                  0 10px 20px -8px rgba(70, 16, 26, .7);
+    }
+    .btn--primary::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(105deg, transparent 35%, rgba(255, 233, 180, .28) 50%, transparent 65%);
+      transform: translateX(-120%);
+      transition: transform 800ms var(--ease);
+      pointer-events: none;
+    }
+    .btn--primary:hover {
+      background-position: 100% 0;
+      transform: translateY(-2px);
+      box-shadow: inset 0 0 0 1px var(--gold),
+                  inset 0 1px 0 rgba(255, 255, 255, .25),
+                  0 16px 28px -8px rgba(70, 16, 26, .75),
+                  0 0 22px rgba(217, 184, 111, .25);
+    }
+    .btn--primary:hover::after { transform: translateX(120%); }
+    .btn--primary:active {
+      transform: translateY(0) scale(.99);
+      box-shadow: inset 0 0 0 1px rgba(217, 184, 111, .55), inset 0 3px 8px rgba(0, 0, 0, .4);
+    }
+
+    .btn__icon { width: 1.1rem; height: 1.1rem; transition: transform var(--t-base) var(--ease); }
+    .btn--primary:hover .btn__icon { transform: translateX(4px); }
+
+    .btn--ghost { color: var(--ink-soft); background: transparent; box-shadow: inset 0 0 0 1px var(--line-strong); }
+    .btn--ghost:hover { color: var(--burgundy); background: rgba(110, 28, 42, .05); box-shadow: inset 0 0 0 1px var(--burgundy); }
+    .btn--ghost:active { transform: scale(.98); }
+    .btn--ghost:hover .btn__icon { transform: rotate(-90deg); }
+
+    /* ==========================================================
+       10. FOOTER NOTE
+       ========================================================== */
+    .card__foot {
+      grid-column: 1 / -1;
+      display: flex;
+      align-items: center;
+      gap: .65rem;
+      margin: 0;
+      padding: 1.1rem clamp(1.9rem, 4.5vw, 3rem);
+      font-size: .85rem;
+      color: var(--ink-soft);
+      border-top: 1px solid var(--line);
+      background: rgba(166, 138, 75, .09);
+    }
+    .card__foot svg { flex: none; width: 1rem; height: 1rem; color: var(--burgundy); }
+
+    /* ==========================================================
+       11. RESPONSIVE
+       ========================================================== */
+    @media (min-width: 64em) {
+      .card { grid-template-columns: 22rem minmax(0, 1fr); }
+      .aside { justify-content: space-between; padding: 2.9rem 2.4rem; }
+      .aside__body { display: grid; gap: 2.4rem; }
+
+      /* Vertical stepper with connecting rail */
+      .steps { grid-template-columns: minmax(0, 1fr); gap: 0; }
+      .step { padding-bottom: 1.4rem; }
+      .step:last-child { padding-bottom: 0; }
+      .step:not(:last-child)::after {
+        content: "";
+        position: absolute;
+        left: .72rem;
+        top: 1.7rem;
+        bottom: .2rem;
+        width: 1px;
+        background: rgba(217, 184, 111, .3);
+      }
+    }
+
+    @media (max-width: 40em) {
+      :root { --radius-card: 14px; --gap: 1rem; }
+      .group { grid-template-columns: minmax(0, 1fr); }
+      .aside::after { display: none; }
+      .form { gap: 2.1rem; }
+      .btn { width: 100%; }
+    }
+
+    @media (max-width: 24em) {
+      .steps { grid-template-columns: minmax(0, 1fr); }
+    }
+
+    /* ==========================================================
+       12. ACCESSIBILITY
+       ========================================================== */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation: none !important;
+        transition-duration: .01ms !important;
+      }
+    }
+    @media (prefers-contrast: more) {
+      :root {
+        --line: #8a7448;
+        --line-strong: #5e4c2b;
+        --ink-faint: #4f3f2c;
+        --cream-muted: #f1e3c0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Decorative animated background (CSS only) -->
+  <div class="backdrop" aria-hidden="true"><span></span><span></span><span></span></div>
+
+  <main class="page">
+    <div class="card">
+
+      <!-- Intro and stepper -->
+      <aside class="aside">
+        <div class="brand">
+          <span class="brand__mark" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5v-15z"/><path d="M4 20.5A2.5 2.5 0 0 0 6.5 23H20v-5M9 8h6"/></svg>
+          </span>
+          <div>
+            <p class="brand__name">Perpustakaan</p>
+            <p class="brand__sub">Formulir Pendaftaran Peminjaman</p>
+          </div>
+        </div>
+
+        <div class="aside__body">
+          <div>
+            <h1 class="card__title" id="form-title">Form Peminjaman Buku</h1>
+            <p class="card__lead">Lengkapi data berikut untuk mengajukan peminjaman buku.</p>
+          </div>
+
+          <div class="progress" aria-hidden="true">
+            <p class="progress__title">Kelengkapan data</p>
+            <ol class="steps">
+              <li class="step step--peminjam"><span class="step__name">Data peminjam</span><span class="step__desc">Identitas dan alamat</span></li>
+              <li class="step step--buku"><span class="step__name">Informasi buku</span><span class="step__desc">Judul, kategori, jumlah</span></li>
+              <li class="step step--jadwal"><span class="step__name">Jadwal peminjaman</span><span class="step__desc">Tanggal pinjam dan kembali</span></li>
+              <li class="step step--setuju"><span class="step__name">Persetujuan</span><span class="step__desc">Peraturan perpustakaan</span></li>
+            </ol>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Form -->
+      <section class="panel" aria-labelledby="form-title">
+        <form class="form" id="formPeminjaman">
+
+          <!-- Data Peminjam -->
+          <section class="group" aria-labelledby="g-peminjam">
+            <header class="group__head">
+              <span class="group__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7"/></svg></span>
+              <div>
+                <h2 class="group__title" id="g-peminjam">Data Peminjam</h2>
+                <p class="group__desc">Identitas dan alamat peminjam.</p>
+              </div>
+            </header>
+
+            <div class="field field--full">
+              <label class="field__label" for="nama">Nama Lengkap</label>
+              <div class="control">
+                <svg class="control__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+                <input class="input input--icon input--text" type="text" id="nama" name="nama" placeholder="Masukkan nama lengkap" autocomplete="name" required>
+                <svg class="control__ok" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>
+              </div>
+            </div>
+
+            <div class="field">
+              <label class="field__label" for="identitas">NIS / NIM</label>
+              <div class="control">
+                <svg class="control__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="3"/><circle cx="9" cy="11" r="2"/><path d="M6 16c.6-1.6 1.7-2.3 3-2.3s2.4.7 3 2.3M15 10h3M15 14h3"/></svg>
+                <input class="input input--icon input--text" type="text" id="identitas" name="identitas" placeholder="Masukkan NIS atau NIM" autocomplete="off" required>
+                <svg class="control__ok" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>
+              </div>
+            </div>
+
+            <div class="field">
+              <label class="field__label" for="kelas">Kelas / Jurusan</label>
+              <div class="control">
+                <svg class="control__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 9l10-5 10 5-10 5-10-5z"/><path d="M6 11.5V16c0 1.5 3 3 6 3s6-1.5 6-3v-4.5"/></svg>
+                <input class="input input--icon input--text" type="text" id="kelas" name="kelas" placeholder="Masukkan kelas atau jurusan" autocomplete="off" required>
+                <svg class="control__ok" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>
+              </div>
+            </div>
+
+            <div class="field field--full">
+              <label class="field__label" for="alamat">Alamat</label>
+              <textarea class="textarea" id="alamat" name="alamat" rows="3" placeholder="Masukkan alamat lengkap" autocomplete="street-address" required></textarea>
+            </div>
+          </section>
+
+          <!-- Informasi Buku -->
+          <section class="group" aria-labelledby="g-buku">
+            <header class="group__head">
+              <span class="group__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5v-15z"/><path d="M4 20.5A2.5 2.5 0 0 0 6.5 23H20v-5M9 8h6"/></svg></span>
+              <div>
+                <h2 class="group__title" id="g-buku">Informasi Buku</h2>
+                <p class="group__desc">Buku yang ingin Anda pinjam.</p>
+              </div>
+            </header>
+
+            <div class="field field--full">
+              <label class="field__label" for="buku">Judul Buku</label>
+              <div class="control">
+                <svg class="control__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5v-15z"/><path d="M4 20.5A2.5 2.5 0 0 0 6.5 23H20v-5"/></svg>
+                <input class="input input--icon input--text" type="text" id="buku" name="buku" placeholder="Masukkan judul buku" autocomplete="off" aria-describedby="buku-hint" required>
+                <svg class="control__ok" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>
+                <p class="field__hint" id="buku-hint">Tulis judul selengkap mungkin agar mudah dicari.</p>
+              </div>
+            </div>
+
+            <div class="field">
+              <label class="field__label" for="kategori">Kategori Buku</label>
+              <select class="select" id="kategori" name="kategori" required>
+                <option value="">-- Pilih Kategori --</option>
+                <option value="Pendidikan">Pendidikan</option>
+                <option value="Teknologi">Teknologi</option>
+                <option value="Pemrograman">Pemrograman</option>
+                <option value="Novel">Novel</option>
+                <option value="Agama">Agama</option>
+                <option value="Sejarah">Sejarah</option>
+                <option value="Lainnya">Lainnya</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label class="field__label" for="jumlah">Jumlah Buku</label>
+              <select class="select" id="jumlah" name="jumlah" required>
+                <option value="1">1 Buku</option>
+                <option value="2">2 Buku</option>
+                <option value="3">3 Buku</option>
+              </select>
+            </div>
+          </section>
+
+          <!-- Jadwal Peminjaman -->
+          <section class="group" aria-labelledby="g-jadwal">
+            <header class="group__head">
+              <span class="group__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/></svg></span>
+              <div>
+                <h2 class="group__title" id="g-jadwal">Jadwal Peminjaman</h2>
+                <p class="group__desc">Tanggal peminjaman dan pengembalian.</p>
+              </div>
+            </header>
+
+            <div class="field">
+              <label class="field__label" for="pinjam">Tanggal Peminjaman</label>
+              <div class="control">
+                <svg class="control__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>
+                <input class="input input--icon input--date" type="date" id="pinjam" name="pinjam" required>
+              </div>
+            </div>
+
+            <div class="field">
+              <label class="field__label" for="kembali">Tanggal Pengembalian</label>
+              <div class="control">
+                <svg class="control__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4M9 15l2 2 4-4"/></svg>
+                <input class="input input--icon input--date" type="date" id="kembali" name="kembali" aria-describedby="kembali-hint" required>
+                <p class="field__hint" id="kembali-hint">Sama atau setelah tanggal peminjaman.</p>
+              </div>
+            </div>
+          </section>
+
+          <!-- Persetujuan -->
+          <div class="choice">
+            <input class="choice__input" type="checkbox" id="setuju" name="setuju" required>
+            <label class="choice__label" for="setuju">Saya bersedia mematuhi peraturan perpustakaan dan mengembalikan buku tepat waktu.</label>
+          </div>
+
+          <!-- Tombol -->
+          <div class="form__actions">
+            <button type="submit" class="btn btn--primary">
+              <svg class="btn__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+              Ajukan Peminjaman
+            </button>
+            <button type="reset" class="btn btn--ghost">
+              <svg class="btn__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7L3 8M3 3v5h5"/></svg>
+              Reset Form
+            </button>
+          </div>
+
+        </form>
+      </section>
+
+      <!-- Footer -->
+      <p class="card__foot">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg>
+        Pastikan seluruh data yang dimasukkan sudah benar.
+      </p>
+
+    </div>
+  </main>
+
+<script>
+    const form = document.getElementById("formPeminjaman");
+    const pinjam = document.getElementById("pinjam");
+    const kembali = document.getElementById("kembali");
+
+    // Mengatur tanggal minimum ke hari ini
+    function tanggalHariIni() {
+        const sekarang = new Date();
+        sekarang.setMinutes(
+            sekarang.getMinutes() - sekarang.getTimezoneOffset()
+        );
+        return sekarang.toISOString().split("T")[0];
+    }
+
+    pinjam.min = tanggalHariIni();
+    pinjam.value = tanggalHariIni();
+    kembali.min = pinjam.value;
+
+    pinjam.addEventListener("change", function () {
+        kembali.min = pinjam.value;
+
+        if (kembali.value && kembali.value < pinjam.value) {
+            kembali.value = "";
+        }
+    });
+
+    form.addEventListener("submit", function (event) {
+        event.preventDefault();
+
+        if (!kembali.value || kembali.value < pinjam.value) {
+            alert("Tanggal pengembalian harus sama atau setelah tanggal peminjaman.");
+            kembali.focus();
+            return;
+        }
+
+        alert(
+            "Formulir berhasil divalidasi.\n" +
+            "Data belum tersimpan karena sistem belum terhubung ke database."
+        );
+    });
+
+    form.addEventListener("reset", function () {
+        setTimeout(function () {
+            pinjam.min = tanggalHariIni();
+            pinjam.value = tanggalHariIni();
+            kembali.min = pinjam.value;
+        }, 0);
+    });
+</script>
+
+</body>
+</html>
