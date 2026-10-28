@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="dark">
+  <meta name="theme-color" content="#050a1f">
+  <title>Form Biodata Mahasantri</title>
+  <style>
+    /* ==========================================================
+       1. DESIGN TOKENS
+       ========================================================== */
+    :root {
+      color-scheme: dark;
+
+      /* Palette */
+      --navy-950: #050a1f;
+      --navy-900: #0a1233;
+      --indigo-600: #4338ca;
+      --violet-500: #7c3aed;
+      --blue-500: #2f6bff;
+      --cyan-400: #22d3ee;
+      --ok: #4ade80;
+      --danger: #ff9bb0;
+
+      /* Text */
+      --text-strong: #f5f8ff;
+      --text-body: #cbd5f5;
+      --text-muted: #9fadd9;
+      --placeholder: #8392c4;
+
+      /* Surfaces & lines */
+      --glass: rgba(11, 18, 52, .66);
+      --field-bg: rgba(255, 255, 255, .055);
+      --field-bg-hover: rgba(255, 255, 255, .085);
+      --field-bg-focus: rgba(255, 255, 255, .115);
+      --border: rgba(165, 185, 255, .2);
+      --border-hover: rgba(165, 185, 255, .42);
+      --ring: rgba(34, 211, 238, .32);
+
+      /* Shape & depth */
+      --radius-card: 32px;
+      --radius-field: 14px;
+      --radius-pill: 999px;
+      --shadow-card: 0 1px 0 rgba(255, 255, 255, .08) inset,
+                     0 30px 60px -20px rgba(2, 6, 28, .75),
+                     0 80px 140px -50px rgba(67, 56, 202, .55);
+
+      /* Rhythm */
+      --field-height: 3.3rem;
+      --gap: 1.25rem;
+
+      /* Motion */
+      --ease: cubic-bezier(.22, .8, .28, 1);
+      --t-fast: 160ms;
+      --t-base: 260ms;
+
+      /* Type */
+      --font: "Inter", "Segoe UI Variable Text", "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
+
+      /* Reusable tick icon (checkbox and progress) */
+      --tick: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%23050a1f' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3.5 8.5l3 3 6-7'/%3E%3C/svg%3E");
+    }
+
+    /* ==========================================================
+       2. BASE
+       ========================================================== */
+    *, *::before, *::after { box-sizing: border-box; }
+    html { -webkit-text-size-adjust: 100%; }
+
+    body {
+      position: relative;
+      isolation: isolate;
+      margin: 0;
+      min-height: 100vh;
+      min-height: 100dvh;
+      overflow-x: hidden;
+      font-family: var(--font);
+      font-size: 1rem;
+      line-height: 1.55;
+      color: var(--text-body);
+      background: var(--navy-950);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ==========================================================
+       3. ANIMATED BACKGROUND
+       .aurora        base linear gradient
+       .aurora::before  diagonal light sweep (linear-gradient)
+       .aurora span     three drifting radial orbs
+       body::before     faint masked grid (pseudo-element)
+       body::after      vignette (pseudo-element)
+       Only transform is animated, so it stays on the GPU.
+       ========================================================== */
+    .aurora {
+      position: fixed;
+      inset: 0;
+      z-index: -3;
+      overflow: hidden;
+      background: linear-gradient(160deg, var(--navy-950), #0a1440 55%, #070e2b);
+    }
+
+    .aurora::before {
+      content: "";
+      position: absolute;
+      inset: -50%;
+      background: linear-gradient(115deg,
+        transparent 32%, rgba(67, 56, 202, .5) 44%,
+        rgba(47, 107, 255, .38) 54%, rgba(34, 211, 238, .12) 60%, transparent 70%);
+      animation: sweep 44s ease-in-out infinite alternate;
+    }
+
+    .aurora span {
+      position: absolute;
+      border-radius: 50%;
+      will-change: transform;
+    }
+    .aurora span:nth-child(1) {
+      width: 62vmax; height: 62vmax; left: -18vmax; top: -24vmax;
+      background: radial-gradient(circle, rgba(124, 58, 237, .62), transparent 68%);
+      animation: drift-a 48s ease-in-out infinite alternate;
+    }
+    .aurora span:nth-child(2) {
+      width: 54vmax; height: 54vmax; right: -16vmax; top: -12vmax;
+      background: radial-gradient(circle, rgba(34, 211, 238, .38), transparent 68%);
+      animation: drift-b 56s ease-in-out infinite alternate;
+    }
+    .aurora span:nth-child(3) {
+      width: 66vmax; height: 66vmax; left: 18vmax; bottom: -34vmax;
+      background: radial-gradient(circle, rgba(47, 107, 255, .55), transparent 68%);
+      animation: drift-c 52s ease-in-out infinite alternate;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      background-image:
+        linear-gradient(rgba(255, 255, 255, .035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, .035) 1px, transparent 1px);
+      background-size: 56px 56px;
+      -webkit-mask-image: radial-gradient(ellipse at 50% 40%, #000 15%, transparent 72%);
+      mask-image: radial-gradient(ellipse at 50% 40%, #000 15%, transparent 72%);
+    }
+
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+      background: radial-gradient(ellipse at center, transparent 55%, rgba(2, 5, 20, .65));
+    }
+
+    @keyframes sweep   { from { transform: translate3d(-10%, -5%, 0) rotate(-4deg); } to { transform: translate3d(10%, 5%, 0) rotate(4deg); } }
+    @keyframes drift-a { from { transform: translate3d(0, 0, 0) scale(1); }          to { transform: translate3d(14vmax, 10vmax, 0) scale(1.15); } }
+    @keyframes drift-b { from { transform: translate3d(0, 0, 0) scale(1.1); }        to { transform: translate3d(-12vmax, 14vmax, 0) scale(.95); } }
+    @keyframes drift-c { from { transform: translate3d(0, 0, 0) scale(1); }          to { transform: translate3d(-16vmax, -10vmax, 0) scale(1.12); } }
+
+    /* ==========================================================
+       4. PAGE & CARD
+       ========================================================== */
+    .page {
+      min-height: 100vh;
+      min-height: 100dvh;
+      display: grid;
+      place-items: center;
+      padding: clamp(1rem, 4vw, 3rem);
+    }
+
+    .card {
+      position: relative;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      width: min(100%, 66rem);
+      overflow: hidden;
+      border-radius: var(--radius-card);
+      background: var(--glass);
+      -webkit-backdrop-filter: blur(20px) saturate(150%);
+      backdrop-filter: blur(20px) saturate(150%);
+      box-shadow: var(--shadow-card);
+      animation: card-in .9s var(--ease) both;
+    }
+
+    @keyframes card-in {
+      from { opacity: 0; transform: translateY(18px) scale(.985); }
+    }
+
+    /* Gradient hairline border */
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      padding: 1px;
+      border-radius: inherit;
+      background: linear-gradient(145deg, rgba(34, 211, 238, .75), rgba(124, 58, 237, .25) 40%, rgba(255, 255, 255, .07) 68%, rgba(47, 107, 255, .65));
+      -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+      -webkit-mask-composite: xor;
+      mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+      pointer-events: none;
+    }
+
+    /* ==========================================================
+       5. ASIDE (brand, intro, progress)
+       ========================================================== */
+    .aside {
+      position: relative;
+      isolation: isolate;
+      display: flex;
+      flex-direction: column;
+      gap: 1.75rem;
+      padding: clamp(1.5rem, 4vw, 2.5rem);
+      background: linear-gradient(160deg, rgba(67, 56, 202, .6), rgba(47, 107, 255, .3) 55%, rgba(34, 211, 238, .16));
+      border-bottom: 1px solid var(--border);
+    }
+
+    /* Concentric rings, decorative */
+    .aside::after {
+      content: "";
+      position: absolute;
+      z-index: -1;
+      right: -7rem;
+      bottom: -7rem;
+      width: 24rem;
+      height: 24rem;
+      border-radius: 50%;
+      background: repeating-radial-gradient(circle, transparent 0 22px, rgba(255, 255, 255, .09) 23px 24px);
+      -webkit-mask-image: radial-gradient(circle, #000 25%, transparent 70%);
+      mask-image: radial-gradient(circle, #000 25%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .brand { display: flex; align-items: center; gap: .8rem; }
+
+    .brand__mark {
+      display: grid;
+      place-items: center;
+      flex: none;
+      width: 2.9rem;
+      height: 2.9rem;
+      color: #fff;
+      border-radius: 15px;
+      background: linear-gradient(140deg, var(--cyan-400), var(--blue-500) 55%, var(--violet-500));
+      box-shadow: 0 10px 24px -8px rgba(34, 211, 238, .55), 0 0 0 1px rgba(255, 255, 255, .25) inset;
+    }
+    .brand__mark svg { width: 1.5rem; height: 1.5rem; }
+
+    .brand__name { margin: 0; font-size: 1rem; font-weight: 650; line-height: 1.2; color: var(--text-strong); }
+    .brand__sub  { margin: 0; font-size: .8125rem; color: var(--text-muted); }
+
+    .card__title {
+      margin: 0 0 .6rem;
+      font-size: clamp(1.75rem, 4.2vw, 2.4rem);
+      font-weight: 700;
+      line-height: 1.1;
+      letter-spacing: -.03em;
+      color: var(--text-strong);
+    }
+    .card__lead { margin: 0; max-width: 30rem; font-size: .975rem; color: var(--text-body); }
+
+    /* Live completion checklist (needs :has(); hidden elsewhere) */
+    .progress { display: none; }
+    @supports selector(:has(*)) { .progress { display: block; } }
+
+    .progress__title { margin: 0 0 .85rem; font-size: .875rem; font-weight: 600; color: var(--text-strong); }
+
+    .progress__list {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: .65rem 1rem;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .progress__item {
+      display: flex;
+      align-items: center;
+      gap: .65rem;
+      font-size: .875rem;
+      color: var(--text-muted);
+      transition: color var(--t-base) var(--ease);
+    }
+    .progress__item::before {
+      content: "";
+      flex: none;
+      width: 1.2rem;
+      height: 1.2rem;
+      border: 1.5px solid rgba(255, 255, 255, .35);
+      border-radius: 50%;
+      background: transparent center / 72% no-repeat;
+      transition: background-color var(--t-base) var(--ease), border-color var(--t-base) var(--ease);
+    }
+
+    .card:has(#nama:valid)                         .progress__item--nama,
+    .card:has(#nim:valid)                          .progress__item--nim,
+    .card:has(#email:valid)                        .progress__item--email,
+    .card:has(input[name="jurusan"]:checked)       .progress__item--jurusan { color: var(--text-strong); }
+
+    .card:has(#nama:valid)                         .progress__item--nama::before,
+    .card:has(#nim:valid)                          .progress__item--nim::before,
+    .card:has(#email:valid)                        .progress__item--email::before,
+    .card:has(input[name="jurusan"]:checked)       .progress__item--jurusan::before {
+      border-color: var(--cyan-400);
+      background-color: var(--cyan-400);
+      background-image: var(--tick);
+    }
+
+    .aside__note { margin: 0; max-width: 22rem; font-size: .8125rem; color: var(--text-muted); }
+
+    /* ==========================================================
+       6. FORM PANEL & GROUPS
+       ========================================================== */
+    .panel { padding: clamp(1.5rem, 4vw, 2.75rem); }
+
+    .form { display: grid; gap: 2.25rem; }
+
+    .group {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--gap);
+      margin: 0;
+      padding: 0;
+      border: 0;
+    }
+
+    .group__title {
+      grid-column: 1 / -1;
+      display: flex;
+      align-items: center;
+      gap: .9rem;
+      margin: 0;
+      font-size: 1.05rem;
+      font-weight: 650;
+      letter-spacing: -.01em;
+      color: var(--text-strong);
+    }
+    .group__title::after { content: ""; flex: 1; height: 1px; background: var(--border); }
+
+    .field { min-width: 0; margin: 0; padding: 0; border: 0; }
+    .field--full { grid-column: 1 / -1; }
+
+    .field__label,
+    .field__legend {
+      display: block;
+      margin-bottom: .6rem;
+      padding: 0;
+      font-size: .875rem;
+      font-weight: 600;
+      color: var(--text-strong);
+      transition: color var(--t-base) var(--ease);
+    }
+    .field:focus-within > .field__label { color: var(--cyan-400); }
+
+    .field__req { margin-left: .2em; color: var(--cyan-400); }
+
+    .field__hint,
+    .field__error { margin: .5rem 0 0; font-size: .8125rem; line-height: 1.4; }
+    .field__hint  { color: var(--text-muted); }
+    .field__error { display: none; color: var(--danger); }
+
+    /* ==========================================================
+       7. INPUTS, SELECT, TEXTAREA
+       ========================================================== */
+    .control { position: relative; }
+
+    .control__icon,
+    .control__ok {
+      position: absolute;
+      top: calc(var(--field-height) / 2);
+      width: 1.15rem;
+      height: 1.15rem;
+      translate: 0 -50%;
+      pointer-events: none;
+    }
+    .control__icon { left: 1rem; color: var(--text-muted); transition: color var(--t-base) var(--ease); }
+    .control:focus-within .control__icon { color: var(--cyan-400); }
+
+    .control__ok {
+      right: 1rem;
+      color: var(--ok);
+      opacity: 0;
+      scale: .6;
+      transition: opacity var(--t-base) var(--ease), scale var(--t-base) var(--ease);
+    }
+
+    .input,
+    .select,
+    .textarea {
+      display: block;
+      width: 100%;
+      min-height: var(--field-height);
+      padding: 0 1rem;
+      font: inherit;
+      color: var(--text-strong);
+      background-color: var(--field-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-field);
+      outline: 0;
+      transition: background-color var(--t-base) var(--ease),
+                  border-color var(--t-base) var(--ease),
+                  box-shadow var(--t-base) var(--ease);
+    }
+
+    .input--icon { padding-left: 2.85rem; padding-right: 2.75rem; }
+
+    .input::placeholder,
+    .textarea::placeholder { color: var(--placeholder); opacity: 1; }
+
+    .input:hover,
+    .select:hover,
+    .textarea:hover { background-color: var(--field-bg-hover); border-color: var(--border-hover); }
+
+    .input:focus,
+    .select:focus,
+    .textarea:focus {
+      background-color: var(--field-bg-focus);
+      border-color: var(--cyan-400);
+      box-shadow: 0 0 0 4px var(--ring), 0 12px 30px -12px rgba(34, 211, 238, .45);
+    }
+
+    /* Validation cues appear only after the user typed something */
+    .input:valid:not(:placeholder-shown) ~ .control__ok { opacity: 1; scale: 1; }
+
+    .input:not(:placeholder-shown):invalid { border-color: var(--danger); box-shadow: 0 0 0 3px rgba(255, 155, 176, .16); }
+    .input:not(:placeholder-shown):invalid:focus { box-shadow: 0 0 0 4px rgba(255, 155, 176, .28); }
+    .input:not(:placeholder-shown):invalid ~ .field__hint  { display: none; }
+    .input:not(:placeholder-shown):invalid ~ .field__error { display: block; }
+
+    /* Keep browser autofill on-theme */
+    .input:-webkit-autofill {
+      -webkit-text-fill-color: var(--text-strong);
+      caret-color: #fff;
+      box-shadow: 0 0 0 100px #111b4a inset;
+    }
+    .input:-webkit-autofill:focus { box-shadow: 0 0 0 100px #16225c inset, 0 0 0 4px var(--ring); }
+
+    .select {
+      padding-right: 2.75rem;
+      cursor: pointer;
+      appearance: none;
+      -webkit-appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='none' stroke='%239fadd9' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 8l5 5 5-5'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 1rem center;
+      background-size: 1.1rem;
+    }
+    .select option { background: var(--navy-900); color: var(--text-strong); }
+
+    .textarea { min-height: 8.5rem; padding: .9rem 1rem; line-height: 1.5; resize: vertical; }
+
+    /* ==========================================================
+       8. RADIO CARDS & CHECKBOX CHIPS
+       Native inputs cover the label (opacity 0) so they stay
+       fully keyboard and screen-reader accessible.
+       ========================================================== */
+    .choice-group { display: grid; gap: .75rem; }
+    .choice-group--cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .choice-group--chips { grid-template-columns: repeat(auto-fit, minmax(8.5rem, 1fr)); }
+
+    .choice { position: relative; }
+
+    .choice__input {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      opacity: 0;
+      cursor: pointer;
+    }
+
+    .choice__label {
+      display: flex;
+      align-items: center;
+      gap: .8rem;
+      min-height: var(--field-height);
+      padding: .55rem 1rem;
+      font-size: .95rem;
+      color: var(--text-body);
+      background: var(--field-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-field);
+      transition: background-color var(--t-base) var(--ease),
+                  border-color var(--t-base) var(--ease),
+                  color var(--t-base) var(--ease),
+                  box-shadow var(--t-base) var(--ease),
+                  transform var(--t-fast) var(--ease);
+    }
+
+    .choice__label::before {
+      content: "";
+      flex: none;
+      width: 1.15rem;
+      height: 1.15rem;
+      border: 1.5px solid var(--text-muted);
+      border-radius: 50%;
+      background: transparent center / 72% no-repeat;
+      transition: background-color var(--t-base) var(--ease), border-color var(--t-base) var(--ease);
+    }
+
+    .choice--radio .choice__label { min-height: 3.75rem; }
+    .choice--radio .choice__label::before { order: 3; margin-left: auto; }
+
+    .choice--check .choice__label { padding-inline: 1rem 1.2rem; border-radius: var(--radius-pill); }
+    .choice--check .choice__label::before { border-radius: 6px; }
+
+    .choice__icon {
+      display: grid;
+      place-items: center;
+      flex: none;
+      width: 2.3rem;
+      height: 2.3rem;
+      color: var(--cyan-400);
+      background: rgba(255, 255, 255, .08);
+      border-radius: 11px;
+      transition: background-color var(--t-base) var(--ease);
+    }
+    .choice__icon svg { width: 1.2rem; height: 1.2rem; }
+
+    .choice__input:hover + .choice__label { background-color: var(--field-bg-hover); border-color: var(--border-hover); }
+    .choice__input:active + .choice__label { transform: scale(.985); }
+
+    .choice__input:checked + .choice__label {
+      color: var(--text-strong);
+      background: linear-gradient(135deg, rgba(47, 107, 255, .38), rgba(124, 58, 237, .3));
+      border-color: rgba(34, 211, 238, .7);
+      box-shadow: 0 10px 26px -12px rgba(47, 107, 255, .8);
+    }
+    .choice__input:checked + .choice__label::before { border-color: var(--cyan-400); background-color: var(--cyan-400); }
+    .choice__input:checked + .choice__label .choice__icon { background: rgba(34, 211, 238, .18); }
+
+    .choice--radio .choice__input:checked + .choice__label::before {
+      background-image: radial-gradient(circle, var(--navy-950) 0 28%, transparent 32%);
+    }
+    .choice--check .choice__input:checked + .choice__label::before { background-image: var(--tick); }
+
+    .choice__input:focus-visible + .choice__label { outline: 2px solid var(--cyan-400); outline-offset: 3px; }
+
+    /* ==========================================================
+       9. BUTTONS
+       ========================================================== */
+    .form__actions { display: flex; flex-wrap: wrap; gap: .75rem; }
+
+    .btn {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: .6rem;
+      min-height: 3.5rem;
+      padding: 0 1.75rem;
+      overflow: hidden;
+      font: inherit;
+      font-size: 1.02rem;
+      font-weight: 650;
+      cursor: pointer;
+      border: 0;
+      border-radius: var(--radius-field);
+      transition: transform var(--t-base) var(--ease),
+                  box-shadow var(--t-base) var(--ease),
+                  background-color var(--t-base) var(--ease),
+                  background-position 900ms var(--ease);
+    }
+    .btn:focus-visible { outline: 3px solid #fff; outline-offset: 3px; }
+
+    .btn--primary {
+      flex: 1 1 14rem;
+      color: #fff;
+      text-shadow: 0 1px 2px rgba(5, 10, 31, .45);
+      background: linear-gradient(110deg, var(--blue-500), var(--violet-500), var(--cyan-400), var(--blue-500));
+      background-size: 300% 100%;
+      box-shadow: 0 12px 26px -10px rgba(47, 107, 255, .75), 0 0 0 1px rgba(255, 255, 255, .16) inset;
+    }
+
+    /* Light sweep on hover */
+    .btn--primary::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(105deg, transparent 35%, rgba(255, 255, 255, .3) 50%, transparent 65%);
+      transform: translateX(-120%);
+      transition: transform 800ms var(--ease);
+      pointer-events: none;
+    }
+
+    .btn--primary:hover {
+      background-position: 100% 0;
+      transform: translateY(-2px);
+      box-shadow: 0 18px 36px -10px rgba(47, 107, 255, .8), 0 0 30px rgba(34, 211, 238, .35), 0 0 0 1px rgba(255, 255, 255, .24) inset;
+    }
+    .btn--primary:hover::after { transform: translateX(120%); }
+    .btn--primary:active { transform: translateY(0) scale(.99); box-shadow: 0 6px 14px -6px rgba(47, 107, 255, .7), 0 0 0 1px rgba(255, 255, 255, .16) inset; }
+
+    .btn__icon { width: 1.1rem; height: 1.1rem; transition: transform var(--t-base) var(--ease); }
+    .btn--primary:hover .btn__icon { transform: translateX(4px); }
+
+    .btn--ghost {
+      color: var(--text-body);
+      background: transparent;
+      box-shadow: 0 0 0 1px var(--border) inset;
+    }
+    .btn--ghost:hover { color: var(--text-strong); background: var(--field-bg-hover); box-shadow: 0 0 0 1px var(--border-hover) inset; }
+    .btn--ghost:active { transform: scale(.98); }
+
+    /* ==========================================================
+       10. RESPONSIVE
+       ========================================================== */
+    @media (min-width: 64em) {
+      .card { grid-template-columns: 21.5rem minmax(0, 1fr); }
+      .aside {
+        justify-content: space-between;
+        padding: 2.5rem 2rem;
+        border-bottom: 0;
+        border-right: 1px solid var(--border);
+      }
+      .aside__body { display: grid; gap: 2rem; }
+      .progress__list { grid-template-columns: minmax(0, 1fr); }
+    }
+
+    @media (max-width: 40em) {
+      :root { --radius-card: 24px; --gap: 1rem; }
+      .group { grid-template-columns: minmax(0, 1fr); }
+      .choice-group--cards { grid-template-columns: minmax(0, 1fr); }
+      .aside::after { display: none; }
+      .form { gap: 2rem; }
+      .btn { width: 100%; }
+    }
+
+    @media (max-width: 22em) {
+      .choice-group--chips { grid-template-columns: minmax(0, 1fr); }
+      .progress__list { grid-template-columns: minmax(0, 1fr); }
+    }
+
+    /* ==========================================================
+       11. ACCESSIBILITY
+       ========================================================== */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation: none !important;
+        transition-duration: .01ms !important;
+      }
+    }
+
+    @media (prefers-contrast: more) {
+      :root {
+        --border: rgba(205, 220, 255, .65);
+        --text-muted: #d6def8;
+        --placeholder: #b6c2e8;
+      }
+    }
+
+    @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+      .card { background: rgba(10, 18, 51, .95); }
+    }
+  </style>
+</head>
+<body>
+  <!-- Decorative animated background (CSS only) -->
+  <div class="aurora" aria-hidden="true"><span></span><span></span><span></span></div>
+
+  <main class="page">
+    <div class="card">
+
+      <!-- Intro and completion checklist -->
+      <aside class="aside">
+        <div class="brand">
+          <span class="brand__mark" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 9l10-5 10 5-10 5-10-5z"/><path d="M6 11.5V16c0 1.5 3 3 6 3s6-1.5 6-3v-4.5"/></svg>
+          </span>
+          <div>
+            <p class="brand__name">Mahasantri</p>
+            <p class="brand__sub">Pendataan biodata</p>
+          </div>
+        </div>
+
+        <div class="aside__body">
+          <div>
+            <h1 class="card__title" id="form-title">Form Biodata Mahasantri</h1>
+            <p class="card__lead">Isi data diri Anda dengan lengkap. Kolom bertanda <span class="field__req" aria-hidden="true">*</span> wajib diisi.</p>
+          </div>
+
+          <div class="progress" aria-hidden="true">
+            <p class="progress__title">Kelengkapan data</p>
+            <ul class="progress__list">
+              <li class="progress__item progress__item--nama">Nama</li>
+              <li class="progress__item progress__item--nim">NIM</li>
+              <li class="progress__item progress__item--email">Email</li>
+              <li class="progress__item progress__item--jurusan">Jurusan</li>
+            </ul>
+          </div>
+        </div>
+
+        <p class="aside__note">Pastikan nama dan NIM sesuai dengan kartu mahasiswa Anda.</p>
+      </aside>
+
+      <!-- Form -->
+      <section class="panel" aria-labelledby="form-title">
+        <form class="form" action="#" method="post">
+
+          <!-- Identitas -->
+          <section class="group" aria-labelledby="g-identitas">
+            <h2 class="group__title" id="g-identitas">Identitas</h2>
+
+            <div class="field field--full">
+              <label class="field__label" for="nama">Nama<span class="field__req" aria-hidden="true">*</span></label>
+              <div class="control">
+                <svg class="control__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+                <input class="input input--icon" id="nama" name="nama" type="text" placeholder="Nama lengkap" autocomplete="name" minlength="3" required>
+                <svg class="control__ok" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>
+                <p class="field__error" aria-hidden="true">Nama minimal 3 karakter.</p>
+              </div>
+            </div>
+
+            <div class="field">
+              <label class="field__label" for="nim">NIM<span class="field__req" aria-hidden="true">*</span></label>
+              <div class="control">
+                <svg class="control__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="3"/><circle cx="9" cy="11" r="2"/><path d="M6 16c.6-1.6 1.7-2.3 3-2.3s2.4.7 3 2.3M15 10h3M15 14h3"/></svg>
+                <input class="input input--icon" id="nim" name="nim" type="text" inputmode="numeric" placeholder="Nomor induk mahasiswa" autocomplete="off" minlength="4" aria-describedby="nim-hint" required>
+                <svg class="control__ok" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>
+                <p class="field__hint" id="nim-hint">Sesuai kartu mahasiswa.</p>
+                <p class="field__error" aria-hidden="true">NIM minimal 4 karakter.</p>
+              </div>
+            </div>
+
+            <div class="field">
+              <label class="field__label" for="email">Email<span class="field__req" aria-hidden="true">*</span></label>
+              <div class="control">
+                <svg class="control__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="M4 8l8 6 8-6"/></svg>
+                <input class="input input--icon" id="email" name="email" type="email" placeholder="nama@email.com" autocomplete="email" aria-describedby="email-hint" required>
+                <svg class="control__ok" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>
+                <p class="field__hint" id="email-hint">Gunakan email yang aktif.</p>
+                <p class="field__error" aria-hidden="true">Format email belum valid.</p>
+              </div>
+            </div>
+          </section>
+
+          <!-- Akademik -->
+          <section class="group" aria-labelledby="g-akademik">
+            <h2 class="group__title" id="g-akademik">Akademik</h2>
+
+            <fieldset class="field field--full">
+              <legend class="field__legend">Jurusan</legend>
+              <div class="choice-group choice-group--cards">
+                <div class="choice choice--radio">
+                  <input class="choice__input" type="radio" name="jurusan" id="jurusan-sd" value="sd">
+                  <label class="choice__label" for="jurusan-sd">
+                    <span class="choice__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 8l-4 4 4 4M16 8l4 4-4 4M13.5 5l-3 14"/></svg></span>
+                    Software Development
+                  </label>
+                </div>
+                <div class="choice choice--radio">
+                  <input class="choice__input" type="radio" name="jurusan" id="jurusan-dm" value="dm">
+                  <label class="choice__label" for="jurusan-dm">
+                    <span class="choice__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 20v-6M12 20V6M19 20V10"/></svg></span>
+                    Digital Marketing
+                  </label>
+                </div>
+              </div>
+            </fieldset>
+
+            <div class="field field--full">
+              <label class="field__label" for="matakuliah">Matakuliah</label>
+              <select class="select" id="matakuliah" name="matakuliah">
+                <option value="wd">Web Design</option>
+                <option value="db">Database SQL</option>
+                <option value="php">Pemrograman PHP</option>
+                <option value="py">Pemrograman Python</option>
+              </select>
+            </div>
+          </section>
+
+          <!-- Informasi tambahan -->
+          <section class="group" aria-labelledby="g-tambahan">
+            <h2 class="group__title" id="g-tambahan">Informasi tambahan</h2>
+
+            <fieldset class="field field--full">
+              <legend class="field__legend">Hobi</legend>
+              <div class="choice-group choice-group--chips">
+                <div class="choice choice--check">
+                  <input class="choice__input" type="checkbox" name="hobi[]" id="hobi-mancing" value="a">
+                  <label class="choice__label" for="hobi-mancing">Mancing</label>
+                </div>
+                <div class="choice choice--check">
+                  <input class="choice__input" type="checkbox" name="hobi[]" id="hobi-olahraga" value="b">
+                  <label class="choice__label" for="hobi-olahraga">Olahraga</label>
+                </div>
+                <div class="choice choice--check">
+                  <input class="choice__input" type="checkbox" name="hobi[]" id="hobi-membaca" value="c">
+                  <label class="choice__label" for="hobi-membaca">Membaca</label>
+                </div>
+                <div class="choice choice--check">
+                  <input class="choice__input" type="checkbox" name="hobi[]" id="hobi-menonton" value="d">
+                  <label class="choice__label" for="hobi-menonton">Menonton</label>
+                </div>
+              </div>
+            </fieldset>
+
+            <div class="field field--full">
+              <label class="field__label" for="alamat">Alamat</label>
+              <textarea class="textarea" id="alamat" name="alamat" rows="5" cols="40" placeholder="Jalan, nomor, kota, kode pos" autocomplete="street-address"></textarea>
+            </div>
+          </section>
+
+          <!-- Actions -->
+          <div class="form__actions">
+            <button class="btn btn--primary" type="submit" name="submit">
+              Submit
+              <svg class="btn__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </button>
+            <button class="btn btn--ghost" type="reset">Reset</button>
+          </div>
+
+        </form>
+      </section>
+    </div>
+  </main>
+</body>
+</html>
