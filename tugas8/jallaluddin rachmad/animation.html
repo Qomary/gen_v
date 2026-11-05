@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Tugas Animasi</title>
+  <style>
+    :root {
+      --bg: #ffffff;
+      --ball-size: 130px;
+      --text-size: 56px;
+      box-sizing: border-box;
+      padding-top: env(safe-area-inset-top, 0px);
+      padding-bottom: env(safe-area-inset-bottom, 0px);
+    }
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) { --bg: #ffffff; }
+    }
+ 
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+ 
+    html, body { height: 100%; }
+ 
+    body {
+      background-color: var(--bg);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: stretch;
+      user-select: none;
+    }
+ 
+    .track-area {
+      position: relative;
+      width: 100%;
+      height: var(--ball-size);
+      margin-bottom: 16px;
+    }
+ 
+    .ball {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: var(--ball-size);
+      height: var(--ball-size);
+      border-radius: 50%;
+      background-color: #d32f2f;
+      border: none;
+      box-shadow: none;
+      cursor: pointer;
+    }
+ 
+    .ticker-bar {
+      background-color: #ffd000;
+      width: 100%;
+      padding: 18px 0;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+ 
+    .marquee {
+      display: inline-flex;
+      white-space: nowrap;
+      animation: runMarquee 12s linear infinite;
+    }
+ 
+    .marquee span {
+      display: inline-block;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      font-size: var(--text-size);
+      font-weight: 900;
+      letter-spacing: 3px;
+      color: #111111;
+      padding: 0 48px;
+    }
+ 
+    @keyframes runMarquee {
+      0%   { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+ 
+    @media (max-width: 600px) {
+      :root {
+        --ball-size: 95px;
+        --text-size: 36px;
+      }
+      .track-area { margin-bottom: 12px; }
+      .marquee span { padding: 0 26px; }
+    }
+  </style>
+</head>
+<body>
+ 
+  <div class="track-area" id="track">
+    <div class="ball" id="ball"></div>
+  </div>
+ 
+  <div class="ticker-bar">
+    <div class="marquee">
+      <span>TUGAS SELESAI BRE •</span>
+      <span>TUGAS SELESAI BRE •</span>
+      <span>TUGAS SELESAI BRE •</span>
+      <span>TUGAS SELESAI BRE •</span>
+      <span>TUGAS SELESAI BRE •</span>
+      <span>TUGAS SELESAI BRE •</span>
+      <span>TUGAS SELESAI BRE •</span>
+      <span>TUGAS SELESAI BRE •</span>
+    </div>
+  </div>
+ 
+  <script>
+    const solidColors = [
+      "#d32f2f", "#1976d2", "#388e3c", "#f57c00",
+      "#111111", "#7b1fa2", "#0097a7"
+    ];
+ 
+    let colorIndex = 0;
+    let posX = 0;
+    let speed = 20; 
+ 
+    const ball = document.getElementById('ball');
+    const track = document.getElementById('track');
+ 
+    function changeColor() {
+      colorIndex = (colorIndex + 1) % solidColors.length;
+      ball.style.backgroundColor = solidColors[colorIndex];
+    }
+ 
+    function animate() {
+      const maxWidth = track.clientWidth - ball.offsetWidth;
+      posX += speed;
+ 
+      if (posX >= maxWidth) {
+        posX = maxWidth;
+        speed = -Math.abs(speed);
+        changeColor();
+      } else if (posX <= 0) {
+        posX = 0;
+        speed = Math.abs(speed);
+        changeColor();
+      }
+ 
+      ball.style.left = posX + 'px';
+      requestAnimationFrame(animate);
+    }
+ 
+    ball.addEventListener('click', changeColor);
+ 
+    window.addEventListener('resize', () => {
+      const maxWidth = track.clientWidth - ball.offsetWidth;
+      if (posX > maxWidth) posX = maxWidth;
+    });
+ 
+    animate();
+  </script>
+</body>
+</html>
+ 
