@@ -1,0 +1,1914 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <title>Pesantren PeTIK II Jombang | Beasiswa 100% Vokasi IT & Kepesantrenan YBM PLN</title>
+  <meta name="description" content="Lembaga pendidikan vokasi berasrama gratis 100% binaan YBM PT PLN (Persero) di Jombang. Program keahlian Software Development & Digital Marketing bersertifikasi resmi BNSP.">
+
+  <!-- Favicon Resmi -->
+  <link rel="icon" type="image/png" href="https://webpetik.petikjombang.com/static/images/logo2.png">
+
+  <!-- Google Fonts: Plus Jakarta Sans, Amiri (Arabic), JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome 6.5.1 CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            arabic: ['"Amiri"', 'serif'],
+            mono: ['"JetBrains Mono"', 'monospace']
+          },
+          colors: {
+            pln: {
+              navy: '#002B49',
+              dark: '#030c17',
+              surface: '#071626',
+              card: '#0b2038',
+              sky: '#0084C8',
+              cyan: '#00e5ff',
+              gold: '#f59e0b',
+              accent: '#10b981'
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    html { scroll-padding-top: 6rem; }
+    body { overflow-x: clip; }
+    section[id] { scroll-margin-top: 5rem; }
+    
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: #030c17; }
+    .light ::-webkit-scrollbar-track { background: #f1f5f9; }
+    ::-webkit-scrollbar-thumb { background: #0084C8; border-radius: 4px; }
+    
+    /* Lingkaran gauge meter SVG */
+    .gauge-circle { 
+      transition: stroke-dashoffset 1s cubic-bezier(0.4, 0, 0.2, 1), stroke 0.3s ease; 
+      transform: rotate(-90deg); 
+      transform-origin: 50% 50%; 
+    }
+    
+    /* Efek Kilau Cahaya (Shimmer Sweep) */
+    .btn-shimmer {
+      position: relative;
+      overflow: hidden;
+      transform: translateZ(0);
+    }
+    .btn-shimmer::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(60deg, transparent 35%, rgba(255,255,255,0.45) 50%, transparent 65%);
+      transform: rotate(25deg) translateX(-100%);
+      animation: shimmerSweep 4.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+      pointer-events: none;
+    }
+    @keyframes shimmerSweep {
+      0% { transform: rotate(25deg) translateX(-150%); }
+      20%, 100% { transform: rotate(25deg) translateX(150%); }
+    }
+
+    /* Spotlight Card Interaktif */
+    .spotlight-card {
+      position: relative;
+      overflow: hidden;
+    }
+    .spotlight-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(400px circle at var(--mouse-x, -500px) var(--mouse-y, -500px), rgba(0, 229, 255, 0.1), transparent 80%);
+      opacity: 0;
+      transition: opacity 0.35s ease;
+      pointer-events: none;
+      z-index: 1;
+    }
+    .spotlight-card:hover::before {
+      opacity: 1;
+    }
+
+    .tilt-card { transform-style: preserve-3d; will-change: transform; }
+    .gallery-filter-btn { transition: transform .2s ease, box-shadow .2s ease, background .2s ease; }
+    .gallery-filter-btn:hover { transform: translateY(-2px); }
+    .gallery-filter-btn:active { transform: scale(.96); }
+
+    /* Scroll reveal */
+    .reveal-on-scroll {
+      opacity: 0;
+      transform: translate3d(0, 20px, 0);
+      transition: opacity .7s ease, transform .7s cubic-bezier(.2,.7,.2,1);
+    }
+    .reveal-on-scroll.is-visible { opacity: 1; transform: translate3d(0,0,0); }
+
+    /* Ripple click */
+    .ripple-host { position: relative; overflow: hidden; isolation: isolate; }
+    .ripple-wave {
+      position: absolute;
+      border-radius: 9999px;
+      pointer-events: none;
+      z-index: 5;
+      background: rgba(255,255,255,.45);
+      transform: scale(0);
+      animation: rippleWave .6s ease-out forwards;
+    }
+    @keyframes rippleWave {
+      to { transform: scale(1); opacity: 0; }
+    }
+
+    /* Denyut Tombol WhatsApp */
+    .whatsapp-float::before, .whatsapp-float::after {
+      content: '';
+      position: absolute;
+      inset: -5px;
+      border: 2px solid rgba(16,185,129,.7);
+      border-radius: 9999px;
+      pointer-events: none;
+      animation: whatsappPulse 2.4s ease-out infinite;
+    }
+    .whatsapp-float::after { animation-delay: 1.2s; }
+    @keyframes whatsappPulse {
+      0% { transform: scale(.85); opacity: .9; }
+      75%, 100% { transform: scale(1.55); opacity: 0; }
+    }
+
+    /* Thumbnail lightbox aktif */
+    .lightbox-thumb-active {
+      border-color: #00e5ff !important;
+      opacity: 1 !important;
+      transform: scale(1.08);
+      box-shadow: 0 0 14px rgba(0,229,255,.5);
+    }
+
+    :where(button, a, input, select, textarea):focus-visible {
+      outline: 2px solid #00e5ff;
+      outline-offset: 3px;
+    }
+
+    @media (hover: none), (pointer: coarse) {
+      .tilt-card { transform: none !important; }
+      .spotlight-card::before { opacity: .3; }
+    }
+  </style>
+
+  <style type="text/tailwindcss">
+    .chip { @apply inline-block px-3.5 py-1.5 rounded-full text-xs font-extrabold tracking-wider uppercase border; }
+    .chip-sky { @apply text-pln-sky dark:text-pln-cyan bg-sky-100 dark:bg-sky-950/60 border-sky-200 dark:border-sky-800; }
+    .sec-h2 { @apply text-2xl sm:text-4xl font-extrabold text-slate-900 dark:text-white mt-3; }
+    .sec-p { @apply text-slate-600 dark:text-slate-400 mt-3 text-xs sm:text-sm leading-relaxed; }
+    .card { @apply p-6 rounded-2xl border border-slate-200 dark:border-white/10 shadow-sm transition-all; }
+    .card-light { @apply bg-slate-50 dark:bg-slate-900/80; }
+    .card-white { @apply bg-white dark:bg-pln-surface; }
+    .ct { @apply text-sm font-bold text-slate-900 dark:text-white mb-1.5; }
+    .cp { @apply text-xs text-slate-600 dark:text-slate-400 leading-relaxed; }
+    .ico { @apply w-12 h-12 rounded-xl flex items-center justify-center text-xl mb-4; }
+    .btn { @apply min-h-[44px] inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl font-extrabold text-xs uppercase tracking-wider transition-all active:scale-95; }
+    .btn-primary { @apply bg-pln-navy dark:bg-pln-sky text-white dark:text-slate-950 hover:brightness-110; }
+    .mnav { @apply py-3 px-3 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800/80 text-slate-700 dark:text-slate-200 font-bold; }
+    .dnav { @apply hover:text-pln-sky dark:hover:text-pln-cyan transition-colors; }
+    .field { @apply w-full px-3.5 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 text-xs text-slate-900 dark:text-white outline-none focus:border-pln-sky; }
+    .flabel { @apply block text-xs font-bold text-slate-600 dark:text-slate-300 uppercase mb-1; }
+    .cfield { @apply w-full px-4 py-3 rounded-xl bg-slate-900 border border-slate-700 text-white text-xs sm:text-sm outline-none focus:border-pln-cyan; }
+    .clabel { @apply block text-xs font-bold text-slate-300 uppercase tracking-wider mb-2; }
+    .step { @apply p-5 rounded-2xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800; }
+    .stepn { @apply w-8 h-8 rounded-lg font-bold text-xs flex items-center justify-center mb-3; }
+    .box-sm { @apply p-3.5 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800; }
+    .pill { @apply px-3 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300; }
+    .dl-row { @apply flex justify-between gap-4; }
+  </style>
+</head>
+<body class="bg-slate-50 dark:bg-pln-dark text-slate-800 dark:text-slate-100 font-sans transition-colors duration-300">
+
+  <a href="#konten-utama" class="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-50 focus:px-4 focus:py-2 focus:bg-pln-sky focus:text-white focus:rounded-lg">Loncat ke konten utama</a>
+
+  <!-- Top Progress Bar -->
+  <div id="scrollProgressBar" class="fixed top-0 left-0 h-1 bg-gradient-to-r from-pln-sky via-pln-cyan to-pln-gold z-50 transition-all duration-100" style="width: 0%;"></div>
+
+  <!-- Announcement Bar -->
+  <aside aria-label="Pengumuman Penting" class="bg-pln-navy text-white text-xs py-2 px-4 border-b border-white/10 relative z-30">
+    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-2">
+      <div class="flex items-center gap-2 text-center sm:text-left">
+        <span class="bg-pln-gold text-slate-950 font-extrabold px-2 py-0.5 rounded text-[10px] uppercase tracking-wider">PMBT 2026/2027</span>
+        <span class="text-slate-200">Beasiswa Vokasi IT Penuh 100% YBM PLN Dibuka • Khusus Mahasantri Putra Dhuafa</span>
+      </div>
+      <div class="flex items-center gap-4 text-[11px] font-semibold text-slate-300">
+        <a href="https://wa.me/6281393963363" target="_blank" rel="noopener noreferrer" class="hover:text-pln-cyan transition-colors flex items-center gap-1.5">
+          <i class="fa-brands fa-whatsapp text-emerald-400"></i> +62 813-9396-3363
+        </a>
+        <span class="hidden md:inline text-slate-500">|</span>
+        <span class="hidden md:inline"><i class="fa-solid fa-location-dot text-pln-gold mr-1"></i> Plosogeneng, Jombang</span>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Sticky Navbar -->
+  <header class="sticky top-0 z-40 bg-white/95 dark:bg-pln-dark/95 backdrop-blur-md border-b border-slate-200 dark:border-white/10 transition-colors">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-20">
+        
+        <!-- Official Logo -->
+        <a href="#" class="flex items-center gap-3 group focus:outline-none focus:ring-2 focus:ring-pln-sky rounded-xl p-1">
+          <div class="bg-white p-1 rounded-xl shadow-sm border border-slate-200 group-hover:scale-105 transition-transform">
+            <img 
+              src="https://webpetik.petikjombang.com/static/images/logo2.png" 
+              alt="Logo Resmi PeTIK Jombang & YBM PLN" 
+              class="h-10 w-auto object-contain"
+            >
+          </div>
+          <div class="hidden sm:block border-l border-slate-300 dark:border-slate-700 pl-3">
+            <div class="flex items-center gap-1.5">
+              <span class="font-black text-sm tracking-tight text-pln-navy dark:text-white">PeTIK II JOMBANG</span>
+              <span class="text-[9px] font-bold px-1.5 py-0.5 rounded bg-pln-sky text-white">VOKASI</span>
+            </div>
+            <p class="text-[10px] text-slate-500 dark:text-slate-400 font-semibold tracking-wide">Binaan YBM PT PLN (Persero)</p>
+          </div>
+        </a>
+
+        <!-- Desktop Navigation Links -->
+        <nav class="hidden lg:flex items-center gap-6 text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300" aria-label="Navigasi Utama">
+          <a href="#profil" class="dnav">Profil M2M</a>
+          <a href="#jurusan" class="dnav">Jurusan</a>
+          <a href="#jadwal" class="dnav">Rutinitas 24 Jam</a>
+          <a href="#galeri" class="dnav">Galeri Dokumentasi</a>
+          <a href="#fasilitas" class="dnav">Fasilitas</a>
+          <a href="#kalkulator" class="text-amber-600 dark:text-pln-gold hover:text-amber-700 flex items-center gap-1 transition-colors">
+            <i class="fa-solid fa-calculator"></i> Cek Kelayakan
+          </a>
+          <a href="#alur-pmbt" class="dnav">Alur Seleksi</a>
+          <a href="#faq" class="dnav">FAQ</a>
+        </nav>
+
+        <!-- Right Action Controls -->
+        <div class="flex items-center gap-3">
+          <button 
+            type="button" 
+            id="themeToggleBtn" 
+            onclick="toggleThemeMode()" 
+            aria-label="Ubah mode gelap atau terang" 
+            class="min-w-[44px] min-h-[44px] flex items-center justify-center rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:text-pln-sky dark:hover:text-pln-cyan transition-all"
+          >
+            <i id="themeSunIcon" class="fa-solid fa-sun text-pln-gold text-base hidden"></i>
+            <i id="themeMoonIcon" class="fa-solid fa-moon text-pln-sky text-base"></i>
+          </button>
+          
+          <button 
+            type="button" 
+            onclick="openRegistrationWizard()" 
+            class="btn ripple-host btn-shimmer hidden sm:flex bg-gradient-to-r from-pln-navy to-pln-sky dark:from-pln-sky dark:to-pln-cyan text-white dark:text-slate-950 shadow-md hover:brightness-110"
+          >
+            <i class="fa-solid fa-paper-plane"></i><span>Daftar Beasiswa</span>
+          </button>
+
+          <button 
+            type="button" 
+            id="mobileMenuToggleBtn" 
+            onclick="toggleMobileMenu()" 
+            aria-label="Buka menu navigasi" 
+            aria-controls="mobileDrawer" 
+            aria-expanded="false" 
+            class="lg:hidden min-w-[44px] min-h-[44px] flex items-center justify-center rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700"
+          >
+            <i class="fa-solid fa-bars text-lg"></i>
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Drawer -->
+  <div id="mobileDrawerBackdrop" onclick="toggleMobileMenu()" class="fixed inset-0 bg-slate-950/70 backdrop-blur-sm z-[998] hidden lg:hidden"></div>
+  <div id="mobileDrawer" class="fixed top-0 right-0 h-full w-[85%] max-w-sm bg-white dark:bg-pln-surface z-[999] shadow-2xl translate-x-full transition-transform duration-300 flex flex-col justify-between p-6 overflow-y-auto lg:hidden" aria-label="Menu navigasi">
+    <div>
+      <div class="flex items-center justify-between pb-6 border-b border-slate-200 dark:border-slate-800">
+        <div class="flex items-center gap-2">
+          <img src="https://webpetik.petikjombang.com/static/images/logo2.png" alt="Logo PeTIK" class="h-8 w-auto bg-white rounded p-0.5">
+          <span class="font-black text-xs text-pln-navy dark:text-white">PeTIK II JOMBANG</span>
+        </div>
+        <button type="button" onclick="toggleMobileMenu()" aria-label="Tutup menu" class="min-w-[44px] min-h-[44px] flex items-center justify-center text-slate-500 hover:text-slate-800 dark:hover:text-white">
+          <i class="fa-solid fa-xmark text-xl"></i>
+        </button>
+      </div>
+      <nav class="mt-6 flex flex-col gap-2">
+        <a href="#profil" onclick="toggleMobileMenu()" class="mnav">Profil &amp; M2M</a>
+        <a href="#jurusan" onclick="toggleMobileMenu()" class="mnav">Jurusan Vokasi</a>
+        <a href="#jadwal" onclick="toggleMobileMenu()" class="mnav">Jadwal 24 Jam</a>
+        <a href="#galeri" onclick="toggleMobileMenu()" class="mnav">Galeri Foto PeTIK</a>
+        <a href="#fasilitas" onclick="toggleMobileMenu()" class="mnav">Fasilitas Pesantren</a>
+        <a href="#kalkulator" onclick="toggleMobileMenu()" class="mnav !text-amber-600 dark:!text-pln-gold">Kalkulator Kelayakan</a>
+        <a href="#alur-pmbt" onclick="toggleMobileMenu()" class="mnav">Alur Seleksi PMBT</a>
+        <a href="#faq" onclick="toggleMobileMenu()" class="mnav">FAQ &amp; Bantuan</a>
+      </nav>
+    </div>
+    <div class="pt-6 border-t border-slate-200 dark:border-slate-800 space-y-3">
+      <button type="button" onclick="toggleMobileMenu(); openRegistrationWizard();" class="btn ripple-host btn-primary w-full min-h-[48px] shadow-md">
+        Daftar PMBT 100% Gratis
+      </button>
+      <p class="text-center text-[10px] text-slate-400">NPSN: K9998392 • YBM PT PLN (Persero)</p>
+    </div>
+  </div>
+
+  <main id="konten-utama">
+    <!-- Hero Section -->
+    <section class="relative min-h-[85vh] flex items-center justify-center py-16 lg:py-24 overflow-hidden bg-slate-900 text-white">
+      <canvas id="heroParticleCanvas" class="absolute inset-0 w-full h-full pointer-events-none opacity-40" aria-hidden="true"></canvas>
+      <div class="absolute -top-32 -right-32 w-80 h-80 bg-pln-sky/20 rounded-full blur-3xl pointer-events-none"></div>
+      <div class="absolute -bottom-32 -left-32 w-80 h-80 bg-pln-gold/15 rounded-full blur-3xl pointer-events-none"></div>
+
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+          
+          <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
+            <div class="btn-shimmer inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-white/10 border border-white/20 text-xs font-bold text-pln-cyan backdrop-blur-md shadow-sm">
+              <span class="relative flex h-2.5 w-2.5">
+                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
+              </span>
+              <span class="tracking-wide">BEASISWA PENUH 100% • BEBAS BIAYA UNTUK DHUAFA</span>
+            </div>
+
+            <h1 class="text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-tight">
+              Mencetak <span class="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 via-pln-cyan to-amber-300">Talenta Digital Unggul</span> Berkarakter Santri
+            </h1>
+
+            <div class="p-3.5 rounded-xl bg-white/5 border border-white/10 max-w-xl mx-auto lg:mx-0 flex items-center gap-3">
+              <span class="text-pln-gold text-lg"><i class="fa-solid fa-quote-left"></i></span>
+              <p lang="ar" dir="rtl" class="font-arabic text-base sm:text-lg text-slate-200 flex-1">
+                يَرْفَعِ اللّٰهُ الَّذِيْنَ اٰمَنُوْا مِنْكُمْ وَالَّذِيْنَ اُوْتُوا الْعِلْمَ دَرَجٰتٍ
+              </p>
+              <span class="text-[10px] text-slate-400 whitespace-nowrap">(QS. Al-Mujadilah: 11)</span>
+            </div>
+
+            <p class="text-slate-300 text-sm sm:text-base leading-relaxed max-w-2xl mx-auto lg:mx-0">
+              Pesantren PeTIK II Jombang menyelenggarakan pendidikan vokasi TIK berasrama selama <strong>1 Tahun Penuh Bebas Biaya</strong> bagi pemuda dhuafa. Mengusung misi <strong>Mustahik to Muzakki (M2M)</strong> guna mencetak programmer handal, digital marketer kompeten, dan insan mandiri berakhlakul karimah.
+            </p>
+
+            <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-2">
+              <button type="button" onclick="openRegistrationWizard()" class="btn ripple-host btn-shimmer w-full sm:w-auto min-h-[48px] px-8 bg-gradient-to-r from-pln-gold via-amber-400 to-amber-500 text-slate-950 shadow-lg hover:brightness-110 active:scale-95">
+                <i class="fa-solid fa-paper-plane"></i><span>Daftar Seleksi PMBT</span>
+              </button>
+              <a href="#kalkulator" class="btn w-full sm:w-auto min-h-[48px] px-7 bg-white/10 hover:bg-white/20 border border-white/20 text-white backdrop-blur-md">
+                <i class="fa-solid fa-calculator text-pln-cyan"></i><span>Cek Kelayakan Beasiswa</span>
+              </a>
+            </div>
+
+            <div class="pt-6 border-t border-slate-800 grid grid-cols-2 sm:grid-cols-4 gap-4 text-center lg:text-left">
+              <div class="p-2.5 rounded-xl bg-white/5 border border-white/5 backdrop-blur-sm">
+                <div class="text-2xl sm:text-3xl font-black text-pln-cyan counter-stat" data-target="100" data-suffix="%">0%</div>
+                <div class="text-[11px] text-slate-400 font-medium">Gratis Kuliah &amp; Asrama</div>
+              </div>
+              <div class="p-2.5 rounded-xl bg-white/5 border border-white/5 backdrop-blur-sm">
+                <div class="text-2xl sm:text-3xl font-black text-amber-400 counter-stat" data-target="1" data-suffix=" Tahun">0</div>
+                <div class="text-[11px] text-slate-400 font-medium">Vokasi Intensif Siap Kerja</div>
+              </div>
+              <div class="p-2.5 rounded-xl bg-white/5 border border-white/5 backdrop-blur-sm">
+                <div class="text-2xl sm:text-3xl font-black text-emerald-400">BNSP</div>
+                <div class="text-[11px] text-slate-400 font-medium">Sertifikasi Profesi Resmi</div>
+              </div>
+              <div class="p-2.5 rounded-xl bg-white/5 border border-white/5 backdrop-blur-sm">
+                <div class="text-2xl sm:text-3xl font-black text-sky-400">K9998392</div>
+                <div class="text-[11px] text-slate-400 font-medium">NPSN Resmi Terdaftar</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="lg:col-span-5">
+            <div class="spotlight-card tilt-card rounded-2xl overflow-hidden bg-slate-950/80 border border-white/15 shadow-2xl backdrop-blur-md">
+              <button type="button" onclick="openLightbox(0)" class="relative block w-full h-56 group overflow-hidden" aria-label="Perbesar foto gedung PeTIK">
+                <img src="https://webpetik.petikjombang.com/static/images/2.jpg" alt="Gedung Kampus dan Amfiteater PeTIK Jombang" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                <span class="absolute bottom-3 left-3 px-2.5 py-1 rounded bg-slate-900/80 text-white text-[10px] font-bold uppercase tracking-wider backdrop-blur-sm border border-white/10">
+                  <i class="fa-solid fa-building-columns mr-1 text-pln-cyan"></i>Kampus &amp; Asrama
+                </span>
+                <span class="absolute top-3 right-3 px-2 py-1 rounded-full bg-black/60 text-white text-[10px] backdrop-blur-md">
+                  <i class="fa-solid fa-expand mr-1"></i>Perbesar
+                </span>
+              </button>
+              <div class="p-5 space-y-3 text-xs relative z-10">
+                <h2 class="text-sm font-extrabold text-white flex items-center justify-between">
+                  <span>Profil Satuan Pendidikan</span>
+                  <span class="text-[10px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">Terakreditasi</span>
+                </h2>
+                <dl class="space-y-2 text-slate-300">
+                  <div class="dl-row"><dt class="text-slate-400">Nama Satuan</dt><dd class="text-right font-semibold">LKP Pesantren PeTIK II Jombang</dd></div>
+                  <div class="dl-row"><dt class="text-slate-400">Lembaga Pembina</dt><dd class="text-right font-semibold">Yayasan Baitul Maal (YBM) PT PLN</dd></div>
+                  <div class="dl-row"><dt class="text-slate-400">Sasaran Penerima</dt><dd class="text-right font-semibold">Pemuda Dhuafa (Mustahik Zakat)</dd></div>
+                  <div class="dl-row"><dt class="text-slate-400">Konsentrasi Studi</dt><dd class="text-right font-semibold">Software Dev (PPL) &amp; Digital Marketing</dd></div>
+                  <div class="dl-row"><dt class="text-slate-400">Misi Utama</dt><dd class="text-right font-bold text-amber-400">Mustahik to Muzakki (M2M)</dd></div>
+                </dl>
+                <p class="pt-2 border-t border-white/10 text-[11px] text-slate-400">
+                  <i class="fa-solid fa-location-dot text-pln-gold mr-1"></i> Jl. KH. Bisri Syansuri, Plosogeneng, Jombang
+                </p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- Profil / Filosofi M2M -->
+    <section id="profil" class="py-20 bg-white dark:bg-pln-surface">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-3xl mx-auto mb-16">
+          <span class="chip chip-sky">Transformasi Sosial Berkelanjutan</span>
+          <h2 class="sec-h2">Prinsip <span class="text-amber-500">Mustahik to Muzakki (M2M)</span></h2>
+          <p class="sec-p sm:!text-base">
+            PeTIK II Jombang didanai murni dari amanah zakat para pegawai muslim PT PLN (Persero). Misi kami adalah memutus rantai kemiskinan antar-generasi dengan mencetak pemuda yang mandiri secara ekonomi dan kokoh dalam beribadah.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div class="card card-light flex flex-col justify-between hover:shadow-md">
+            <div>
+              <div class="w-10 h-10 rounded-xl bg-amber-500/20 text-amber-500 font-black text-sm flex items-center justify-center mb-4">01</div>
+              <h3 class="text-base font-bold text-slate-900 dark:text-white mb-2">Penjaringan Asnaf Dhuafa</h3>
+              <p class="cp">Seleksi ketat dan transparan. Calon mahasantri diverifikasi langsung melalui survei faktual ke rumah (<em>home visit</em>) guna memastikan bantuan zakat tepat sasaran.</p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-slate-200 dark:border-slate-800 text-[11px] font-bold text-amber-600 dark:text-amber-400">
+              <i class="fa-solid fa-check mr-1.5"></i>Tepat Sasaran Asnaf
+            </div>
+          </div>
+
+          <div class="card card-light flex flex-col justify-between hover:shadow-md">
+            <div>
+              <div class="w-10 h-10 rounded-xl bg-sky-500/20 text-pln-sky dark:text-pln-cyan font-black text-sm flex items-center justify-center mb-4">02</div>
+              <h3 class="text-base font-bold text-slate-900 dark:text-white mb-2">Vokasi IT &amp; Kepesantrenan</h3>
+              <p class="cp">1 tahun penuh di asrama dengan ribuan jam praktik di lab komputer, pembinaan tahsin Al-Qur'an harian, dan pembentukan akhlakul karimah.</p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-slate-200 dark:border-slate-800 text-[11px] font-bold text-pln-sky dark:text-pln-cyan">
+              <i class="fa-solid fa-check mr-1.5"></i>80% Praktikum Terapan
+            </div>
+          </div>
+
+          <div class="card card-light flex flex-col justify-between hover:shadow-md">
+            <div>
+              <div class="w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-500 font-black text-sm flex items-center justify-center mb-4">03</div>
+              <h3 class="text-base font-bold text-slate-900 dark:text-white mb-2">Sertifikasi BNSP &amp; Proyek</h3>
+              <p class="cp">Mahasantri diuji kompetensinya melalui sertifikasi resmi Badan Nasional Sertifikasi Profesi (BNSP) serta mengerjakan portofolio live bersama mitra industri.</p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-slate-200 dark:border-slate-800 text-[11px] font-bold text-emerald-600 dark:text-emerald-400">
+              <i class="fa-solid fa-check mr-1.5"></i>Standar Profesi Nasional
+            </div>
+          </div>
+
+          <div class="card card-light flex flex-col justify-between hover:shadow-md">
+            <div>
+              <div class="w-10 h-10 rounded-xl bg-purple-500/20 text-purple-500 font-black text-sm flex items-center justify-center mb-4">04</div>
+              <h3 class="text-base font-bold text-slate-900 dark:text-white mb-2">Berdikari Menjadi Muzakki</h3>
+              <p class="cp">Lulusan bekerja di industri IT, agensi pemasaran, startup, atau wirausaha mandiri, sehingga mampu mengangkat ekonomi keluarga dan membayar zakat.</p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-slate-200 dark:border-slate-800 text-[11px] font-bold text-purple-600 dark:text-purple-400">
+              <i class="fa-solid fa-check mr-1.5"></i>Kemandirian Finansial
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-12 p-6 rounded-2xl bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-white/10 grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div class="flex items-center gap-4">
+            <div class="w-12 h-12 shrink-0 rounded-xl bg-sky-500/10 text-pln-sky dark:text-pln-cyan flex items-center justify-center text-xl"><i class="fa-solid fa-user-tie"></i></div>
+            <div>
+              <p class="text-[11px] text-slate-500 uppercase font-bold">Direktur PeTIK Jombang</p>
+              <p class="text-sm font-extrabold text-slate-900 dark:text-white">Dedy Widjaya</p>
+              <p class="text-xs text-pln-sky dark:text-pln-cyan font-medium">Manajemen Vokasi TIK Modern</p>
+            </div>
+          </div>
+          <div class="flex items-center gap-4">
+            <div class="w-12 h-12 shrink-0 rounded-xl bg-amber-500/10 text-amber-500 flex items-center justify-center text-xl"><i class="fa-solid fa-mosque"></i></div>
+            <div>
+              <p class="text-[11px] text-slate-500 uppercase font-bold">Pengasuh Kepesantrenan</p>
+              <p class="text-sm font-extrabold text-slate-900 dark:text-white">KH. Ahmad Habibul Amin</p>
+              <p class="text-xs text-amber-500 font-medium">Tarbiyah Adab &amp; Karakter Santri</p>
+            </div>
+          </div>
+          <div class="flex items-center gap-4">
+            <div class="w-12 h-12 shrink-0 rounded-xl bg-emerald-500/10 text-emerald-500 flex items-center justify-center text-xl"><i class="fa-solid fa-building-shield"></i></div>
+            <div>
+              <p class="text-[11px] text-slate-500 uppercase font-bold">Legalitas &amp; Pengawas</p>
+              <p class="text-sm font-extrabold text-slate-900 dark:text-white">NPSN: K9998392</p>
+              <p class="text-xs text-emerald-500 font-medium">YBM PLN &amp; PLN UID Jatim</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Jurusan Vokasi -->
+    <section id="jurusan" class="py-20 bg-slate-50 dark:bg-pln-dark">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-3xl mx-auto mb-12">
+          <span class="chip chip-sky">Pilihan Spesialisasi Vokasi</span>
+          <h2 class="sec-h2">Kurikulum Terapan &amp; Mitra Industri Riil</h2>
+          <p class="sec-p sm:!text-base">Fokus pada kemampuan aplikatif yang dicari perusahaan modern, didukung pengalaman nyata bersama mitra kerja resmi.</p>
+          <div class="flex justify-center mt-8">
+            <div class="inline-flex flex-col sm:flex-row p-1.5 gap-1 rounded-2xl bg-slate-200 dark:bg-slate-900 border border-slate-300 dark:border-slate-800" role="tablist">
+              <button type="button" id="tabBtnPpl" role="tab" aria-selected="true" onclick="switchJurusan('ppl')" class="px-5 py-2.5 rounded-xl text-xs sm:text-sm font-extrabold transition-all flex items-center gap-2">
+                <i class="fa-solid fa-laptop-code"></i><span>Pengembangan Perangkat Lunak (PPL)</span>
+              </button>
+              <button type="button" id="tabBtnDm" role="tab" aria-selected="false" onclick="switchJurusan('dm')" class="px-5 py-2.5 rounded-xl text-xs sm:text-sm font-extrabold transition-all flex items-center gap-2">
+                <i class="fa-solid fa-bullhorn"></i><span>Digital Marketing (DM)</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- PPL Tab Content -->
+        <div id="contentPpl" role="tabpanel">
+          <div class="p-6 sm:p-10 rounded-3xl bg-white dark:bg-pln-surface border border-slate-200 dark:border-white/10 shadow-sm grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+            <div class="lg:col-span-7 space-y-4">
+              <div class="flex flex-wrap gap-2">
+                <span class="px-3 py-1 rounded-full text-xs font-bold bg-sky-100 dark:bg-sky-950 text-pln-sky dark:text-pln-cyan">Software Engineering</span>
+                <span class="px-3 py-1 rounded-full text-xs font-bold bg-emerald-100 dark:bg-emerald-950 text-emerald-600 dark:text-emerald-400">Sertifikasi BNSP Junior Web Dev</span>
+              </div>
+              <h3 class="text-xl sm:text-2xl font-black text-slate-900 dark:text-white">Rekayasa Web Fullstack &amp; Arsitektur Backend Modern</h3>
+              <p class="text-slate-600 dark:text-slate-300 text-xs sm:text-sm leading-relaxed">
+                Mahasantri jurusan PPL dilatih merancang sistem informasi dari nol: membangun antarmuka web yang elegan dan responsif, merancang arsitektur basis data relasional yang kokoh, membuat RESTful API yang aman, serta menguji performa software sebelum <em>deployment</em> ke server produksi.
+              </p>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
+                <div class="box-sm">
+                  <p class="text-xs font-bold text-pln-sky dark:text-pln-cyan mb-1"><i class="fa-solid fa-cube mr-1.5"></i>Semester 1: Fondasi &amp; Frontend</p>
+                  <p class="text-xs text-slate-500 dark:text-slate-400">Algoritma logika, Git/GitHub, HTML5, CSS3, Tailwind CSS, serta JavaScript interaktif (DOM &amp; Fetch API).</p>
+                </div>
+                <div class="box-sm">
+                  <p class="text-xs font-bold text-amber-500 mb-1"><i class="fa-solid fa-server mr-1.5"></i>Semester 2: Backend &amp; Database</p>
+                  <p class="text-xs text-slate-500 dark:text-slate-400">Python Flask, perancangan SQL (SQLite &amp; MySQL), RESTful API, otentikasi user, &amp; sertifikasi resmi BNSP.</p>
+                </div>
+              </div>
+              <div class="pt-2">
+                <p class="text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-2">Prospek Karier Lulusan:</p>
+                <div class="flex flex-wrap gap-2 text-xs font-semibold">
+                  <span class="pill">Junior Web Developer</span>
+                  <span class="pill">Backend API Programmer</span>
+                  <span class="pill">Database Administrator</span>
+                  <span class="pill">Fullstack Freelancer</span>
+                </div>
+              </div>
+            </div>
+            <div class="lg:col-span-5 space-y-4">
+              <button type="button" onclick="openLightbox(1)" class="block w-full rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-700 shadow-md group relative" aria-label="Perbesar foto laboratorium">
+                <img src="https://cdn.surabayapagi.com/po-content/uploads/2024/08/img2024080538639.webp" alt="Praktikum coding di lab komputer PeTIK Jombang" class="w-full h-52 sm:h-60 object-cover group-hover:scale-105 transition-transform duration-500">
+                <span class="absolute bottom-3 left-3 px-2.5 py-1 rounded bg-slate-900/80 text-white text-[10px] font-bold backdrop-blur-sm">
+                  <i class="fa-solid fa-laptop-code text-pln-cyan mr-1"></i>Lab Praktikum PPL
+                </span>
+              </button>
+              <div class="p-4 rounded-xl bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-xs space-y-2">
+                <p class="font-bold text-slate-900 dark:text-white flex items-center gap-1.5"><i class="fa-solid fa-check-circle text-emerald-500"></i> Portofolio Capstone Mahasantri PPL:</p>
+                <ul class="space-y-1 text-slate-600 dark:text-slate-400 pl-4 list-disc">
+                  <li>Sistem Informasi Monitoring Santri &amp; Beasiswa Terpadu</li>
+                  <li>Aplikasi Perpustakaan &amp; Reservasi Buku Daring Berbasis Web</li>
+                  <li>Landing Page Katalog Kuliner Nusantara Terintegrasi Checkout WhatsApp</li>
+                  <li>Platform Ujian Online Realtime Berbasis Bank Soal</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- DM Tab Content -->
+        <div id="contentDm" role="tabpanel" class="hidden">
+          <div class="p-6 sm:p-10 rounded-3xl bg-white dark:bg-pln-surface border border-slate-200 dark:border-white/10 shadow-sm grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+            <div class="lg:col-span-7 space-y-4">
+              <div class="flex flex-wrap gap-2">
+                <span class="px-3 py-1 rounded-full text-xs font-bold bg-amber-100 dark:bg-amber-950 text-amber-700 dark:text-amber-400">Marketing &amp; Growth</span>
+                <span class="px-3 py-1 rounded-full text-xs font-bold bg-purple-100 dark:bg-purple-950 text-purple-600 dark:text-purple-400">Sertifikasi BNSP Digital Marketer</span>
+              </div>
+              <h3 class="text-xl sm:text-2xl font-black text-slate-900 dark:text-white">Strategi Pertumbuhan Bisnis, Konten Kreatif &amp; Iklan Berbayar</h3>
+              <p class="text-slate-600 dark:text-slate-300 text-xs sm:text-sm leading-relaxed">
+                Mahasantri jurusan Digital Marketing dilatih menjadi praktisi pemasaran online yang mampu meramu pesan bernilai jual tinggi, mengelola akun media sosial secara profesional, mengoptimasi mesin pencari (SEO), hingga mengeksekusi kampanye iklan berbayar (Meta Ads &amp; TikTok Ads) dengan Return on Ad Spend (ROAS) optimal.
+              </p>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
+                <div class="box-sm">
+                  <p class="text-xs font-bold text-amber-600 dark:text-amber-400 mb-1"><i class="fa-solid fa-pen-nib mr-1.5"></i>Semester 1: Riset &amp; Konten</p>
+                  <p class="text-xs text-slate-500 dark:text-slate-400">Riset audiens/buyer persona, copywriting formula AIDA, desain grafis promosi, &amp; produksi video komersial.</p>
+                </div>
+                <div class="box-sm">
+                  <p class="text-xs font-bold text-pln-sky dark:text-pln-cyan mb-1"><i class="fa-solid fa-chart-line mr-1.5"></i>Semester 2: Paid Ads &amp; Funnel</p>
+                  <p class="text-xs text-slate-500 dark:text-slate-400">Manajemen iklan Meta Ads, TikTok Ads, SEO On/Off page, funnel konversi, &amp; uji kompetensi resmi BNSP.</p>
+                </div>
+              </div>
+              <div class="pt-2">
+                <p class="text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-2">Mitra Industri Praktik Nyata:</p>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                  <div class="p-3 rounded-lg bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800">
+                    <p class="font-bold text-emerald-700 dark:text-emerald-400"><i class="fa-solid fa-recycle mr-1"></i>PT RESIKREK Jombang</p>
+                    <p class="text-[11px] text-slate-600 dark:text-slate-400 mt-0.5">Pengelolaan kampanye lingkungan hidup &amp; social media engagement.</p>
+                  </div>
+                  <div class="p-3 rounded-lg bg-pink-50 dark:bg-pink-950/40 border border-pink-200 dark:border-pink-800">
+                    <p class="font-bold text-pink-700 dark:text-pink-400"><i class="fa-solid fa-spa mr-1"></i>DEAR DREAM Jombang</p>
+                    <p class="text-[11px] text-slate-600 dark:text-slate-400 mt-0.5">Strategi branding klinik estetika (by dr. Anangwib) &amp; optimasi iklan.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="lg:col-span-5 space-y-4">
+              <button type="button" onclick="openLightbox(3)" class="block w-full rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-700 shadow-md group relative" aria-label="Perbesar foto wisuda">
+                <img src="https://jatimkini.com/po-content/uploads/202508/pln-wisuda-mahasantri-petik-jombang.jpg" alt="Wisuda Mahasantri PeTIK Jombang bersama YBM PLN" class="w-full h-52 sm:h-60 object-cover group-hover:scale-105 transition-transform duration-500">
+                <span class="absolute bottom-3 left-3 px-2.5 py-1 rounded bg-slate-900/80 text-white text-[10px] font-bold backdrop-blur-sm">
+                  <i class="fa-solid fa-bullhorn text-amber-400 mr-1"></i>Karya &amp; Kelulusan DM
+                </span>
+              </button>
+              <div class="p-4 rounded-xl bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-xs space-y-2">
+                <p class="font-bold text-slate-900 dark:text-white flex items-center gap-1.5"><i class="fa-solid fa-bullseye text-amber-500"></i> Prospek Karier Lulusan DM:</p>
+                <ul class="space-y-1 text-slate-600 dark:text-slate-400 pl-4 list-disc">
+                  <li>Digital Marketing Specialist &amp; Media Buyer</li>
+                  <li>Social Media Strategist &amp; Content Specialist</li>
+                  <li>Search Engine Optimization (SEO) Specialist</li>
+                  <li>E-Commerce Funnel &amp; Campaign Manager</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Rutinitas 24 Jam Mahasantri -->
+    <section id="jadwal" class="py-20 bg-white dark:bg-pln-surface">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-3xl mx-auto mb-14">
+          <span class="chip text-purple-600 dark:text-purple-400 bg-purple-100 dark:bg-purple-950/60 border-purple-200 dark:border-purple-800">Keseimbangan Hidup</span>
+          <h2 class="sec-h2">Jadwal Rutinitas Mahasantri 24 Jam</h2>
+          <p class="sec-p">Memadukan kedisiplinan ibadah diniyah pesantren dengan intensitas praktikum teknologi informasi modern.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+          <div class="p-5 rounded-2xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 flex gap-4 items-start">
+            <div class="w-12 h-12 rounded-xl bg-amber-500/10 text-amber-500 shrink-0 flex items-center justify-center text-lg font-bold"><i class="fa-solid fa-moon"></i></div>
+            <div>
+              <span class="text-[11px] font-extrabold px-2 py-0.5 rounded bg-amber-100 dark:bg-amber-950/60 text-amber-700 dark:text-amber-400">03.30 – 06.30 WIB</span>
+              <h4 class="font-bold text-sm text-slate-900 dark:text-white mt-1.5">Qiyamul Lail &amp; Tahsin Al-Qur'an</h4>
+              <p class="text-xs text-slate-600 dark:text-slate-400 mt-1 leading-relaxed">Sholat tahajud berjamaah, sholat Subuh, zikir ma'tsurat, dan halaqah tahsin makharijul huruf bersama asatidz.</p>
+            </div>
+          </div>
+
+          <div class="p-5 rounded-2xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 flex gap-4 items-start">
+            <div class="w-12 h-12 rounded-xl bg-sky-500/10 text-pln-sky dark:text-pln-cyan shrink-0 flex items-center justify-center text-lg font-bold"><i class="fa-solid fa-users"></i></div>
+            <div>
+              <span class="text-[11px] font-extrabold px-2 py-0.5 rounded bg-sky-100 dark:bg-sky-950/60 text-pln-sky dark:text-pln-cyan">06.30 – 07.30 WIB</span>
+              <h4 class="font-bold text-sm text-slate-900 dark:text-white mt-1.5">Sarapan &amp; Apel Pagi Santri</h4>
+              <p class="text-xs text-slate-600 dark:text-slate-400 mt-1 leading-relaxed">Sarapan bersama, piket kebersihan asrama, dan apel pengarahan di panggung amfiteater terbuka.</p>
+            </div>
+          </div>
+
+          <div class="p-5 rounded-2xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 flex gap-4 items-start">
+            <div class="w-12 h-12 rounded-xl bg-emerald-500/10 text-emerald-500 shrink-0 flex items-center justify-center text-lg font-bold"><i class="fa-solid fa-laptop-code"></i></div>
+            <div>
+              <span class="text-[11px] font-extrabold px-2 py-0.5 rounded bg-emerald-100 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-400">07.30 – 11.45 WIB</span>
+              <h4 class="font-bold text-sm text-slate-900 dark:text-white mt-1.5">Kuliah &amp; Praktikum Lab Sesi 1</h4>
+              <p class="text-xs text-slate-600 dark:text-slate-400 mt-1 leading-relaxed">Penyampaian materi dan hands-on coding web atau strategi pemasaran digital di lab komputer individual.</p>
+            </div>
+          </div>
+
+          <div class="p-5 rounded-2xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 flex gap-4 items-start">
+            <div class="w-12 h-12 rounded-xl bg-blue-500/10 text-blue-500 shrink-0 flex items-center justify-center text-lg font-bold"><i class="fa-solid fa-sun"></i></div>
+            <div>
+              <span class="text-[11px] font-extrabold px-2 py-0.5 rounded bg-blue-100 dark:bg-blue-950/60 text-blue-700 dark:text-blue-400">11.45 – 13.00 WIB</span>
+              <h4 class="font-bold text-sm text-slate-900 dark:text-white mt-1.5">Ishoma &amp; Qailullah</h4>
+              <p class="text-xs text-slate-600 dark:text-slate-400 mt-1 leading-relaxed">Sholat Dzuhur berjamaah di mushola, makan siang bersama, dan istirahat sejenak untuk memulihkan energi.</p>
+            </div>
+          </div>
+
+          <div class="p-5 rounded-2xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 flex gap-4 items-start">
+            <div class="w-12 h-12 rounded-xl bg-teal-500/10 text-teal-500 shrink-0 flex items-center justify-center text-lg font-bold"><i class="fa-solid fa-terminal"></i></div>
+            <div>
+              <span class="text-[11px] font-extrabold px-2 py-0.5 rounded bg-teal-100 dark:bg-teal-950/60 text-teal-700 dark:text-teal-400">13.00 – 16.30 WIB</span>
+              <h4 class="font-bold text-sm text-slate-900 dark:text-white mt-1.5">Praktikum Sesi 2 &amp; Sholat Ashar</h4>
+              <p class="text-xs text-slate-600 dark:text-slate-400 mt-1 leading-relaxed">Pengerjaan proyek mandiri, code review tim, sholat Ashar, dan olahraga kebugaran di lapangan kampus.</p>
+            </div>
+          </div>
+
+          <div class="p-5 rounded-2xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 flex gap-4 items-start">
+            <div class="w-12 h-12 rounded-xl bg-indigo-500/10 text-indigo-500 shrink-0 flex items-center justify-center text-lg font-bold"><i class="fa-solid fa-book-quran"></i></div>
+            <div>
+              <span class="text-[11px] font-extrabold px-2 py-0.5 rounded bg-indigo-100 dark:bg-indigo-950/60 text-indigo-700 dark:text-indigo-400">17.30 – 22.00 WIB</span>
+              <h4 class="font-bold text-sm text-slate-900 dark:text-white mt-1.5">Diniyah, Makan Malam &amp; Night Lab</h4>
+              <p class="text-xs text-slate-600 dark:text-slate-400 mt-1 leading-relaxed">Kajian fiqih ibadah, sholat Isya, makan malam, dan sesi lab malam mandiri sebelum istirahat tidur pada pukul 22.00 WIB.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Galeri Foto Asli dengan Filter 5 Kategori -->
+    <section id="galeri" class="py-20 bg-slate-50 dark:bg-pln-dark">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-4">
+          <div>
+            <span class="chip chip-sky">Dokumentasi Nyata &amp; Asli</span>
+            <h2 class="sec-h2">Galeri Foto Pesantren PeTIK II Jombang</h2>
+            <p class="sec-p max-w-2xl">Seluruh dokumentasi visual resmi yang merekam kehidupan santri, gedung kampus, fasilitas laboratorium IT, kegiatan diniyah, dan wisuda kelulusan YBM PLN.</p>
+          </div>
+          <!-- Filter Buttons -->
+          <div class="flex flex-wrap gap-2 text-xs font-bold" id="galleryFilterGroup">
+            <button type="button" onclick="filterGallery('all')" class="gallery-filter-btn px-3.5 py-2 rounded-xl bg-pln-sky text-white shadow-sm" data-category="all">Semua Foto (12)</button>
+            <button type="button" onclick="filterGallery('kampus')" class="gallery-filter-btn px-3.5 py-2 rounded-xl bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:text-pln-sky" data-category="kampus">Kampus &amp; Asrama</button>
+            <button type="button" onclick="filterGallery('lab')" class="gallery-filter-btn px-3.5 py-2 rounded-xl bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:text-pln-sky" data-category="lab">Lab IT &amp; Proyek</button>
+            <button type="button" onclick="filterGallery('santri')" class="gallery-filter-btn px-3.5 py-2 rounded-xl bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:text-pln-sky" data-category="santri">Kepesantrenan</button>
+            <button type="button" onclick="filterGallery('wisuda')" class="gallery-filter-btn px-3.5 py-2 rounded-xl bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:text-pln-sky" data-category="wisuda">Wisuda &amp; YBM PLN</button>
+          </div>
+        </div>
+
+        <div id="galleryGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+      </div>
+    </section>
+
+    <!-- Testimoni & Kisah Nyata M2M -->
+    <section class="py-20 bg-white dark:bg-pln-surface">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-3xl mx-auto mb-14">
+          <span class="chip text-amber-600 dark:text-amber-400 bg-amber-100 dark:bg-amber-950/60 border-amber-200 dark:border-amber-800">Kisah Transformasi</span>
+          <h2 class="sec-h2">Bukti Nyata Mustahik Menjadi Muzakki</h2>
+          <p class="sec-p">Alumni yang berhasil membuktikan bahwa keterbatasan ekonomi bukanlah penghalang untuk menjadi talenta digital yang mandiri dan berdaya saing.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div class="card card-light flex flex-col justify-between">
+            <div class="space-y-3">
+              <div class="flex items-center gap-1 text-amber-400 text-xs">
+                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+              </div>
+              <p class="text-xs text-slate-600 dark:text-slate-300 italic leading-relaxed">
+                "Alhamdulillah, sebelum di PeTIK saya tidak paham coding sama sekali. Di sini dibimbing dari nol sampai bisa buat sistem database dan REST API. Kini saya bekerja sebagai junior backend developer dan bisa membantu perekonomian orang tua di kampung."
+              </p>
+            </div>
+            <div class="pt-4 mt-4 border-t border-slate-200 dark:border-slate-800 flex items-center gap-3">
+              <div class="w-10 h-10 rounded-full bg-pln-sky/20 text-pln-sky font-black flex items-center justify-center text-xs">PPL</div>
+              <div>
+                <h4 class="font-bold text-xs text-slate-900 dark:text-white">Alumni Jurusan PPL</h4>
+                <p class="text-[11px] text-slate-500">Kini: Junior Backend Programmer</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="card card-light flex flex-col justify-between">
+            <div class="space-y-3">
+              <div class="flex items-center gap-1 text-amber-400 text-xs">
+                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+              </div>
+              <p class="text-xs text-slate-600 dark:text-slate-300 italic leading-relaxed">
+                "Fasilitas PC di lab sangat mumpuni untuk edit video promosi dan kelola Meta Ads. Berkat magang di mitra industri PeTIK, saya punya portofolio riil saat uji kompetensi BNSP dan langsung diterima di agensi digital pemasaran."
+              </p>
+            </div>
+            <div class="pt-4 mt-4 border-t border-slate-200 dark:border-slate-800 flex items-center gap-3">
+              <div class="w-10 h-10 rounded-full bg-amber-500/20 text-amber-500 font-black flex items-center justify-center text-xs">DM</div>
+              <div>
+                <h4 class="font-bold text-xs text-slate-900 dark:text-white">Alumni Jurusan Digital Marketing</h4>
+                <p class="text-[11px] text-slate-500">Kini: Social Media &amp; Ads Specialist</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="card card-light flex flex-col justify-between">
+            <div class="space-y-3">
+              <div class="flex items-center gap-1 text-amber-400 text-xs">
+                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+              </div>
+              <p class="text-xs text-slate-600 dark:text-slate-300 italic leading-relaxed">
+                "Paling berkesan adalah adab kepesantrenannya. Kami tidak cuma belajar skill IT untuk cari nafkah, tapi juga dibiasakan sholat berjamaah, tahsin Al-Qur'an, dan menjaga amanah zakat para muzakki pegawai PLN."
+              </p>
+            </div>
+            <div class="pt-4 mt-4 border-t border-slate-200 dark:border-slate-800 flex items-center gap-3">
+              <div class="w-10 h-10 rounded-full bg-emerald-500/20 text-emerald-500 font-black flex items-center justify-center text-xs">ALM</div>
+              <div>
+                <h4 class="font-bold text-xs text-slate-900 dark:text-white">Alumni Mahasantri PeTIK</h4>
+                <p class="text-[11px] text-slate-500">Kini: Web Developer &amp; Wirausaha Digital</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Fasilitas Pesantren Lengkap -->
+    <section id="fasilitas" class="py-20 bg-slate-50 dark:bg-pln-dark">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-3xl mx-auto mb-14">
+          <span class="chip text-emerald-600 dark:text-emerald-400 bg-emerald-100 dark:bg-emerald-950/60 border-emerald-200 dark:border-emerald-800">Fasilitas Komprehensif</span>
+          <h2 class="sec-h2">Seluruh Kebutuhan Disediakan Gratis</h2>
+          <p class="sec-p">Semua sarana disiapkan agar mahasantri dapat berfokus menuntut ilmu dan mengasah keterampilan digitalnya tanpa membebani keluarga.</p>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div class="card card-white">
+            <div class="ico bg-sky-500/10 text-pln-sky dark:text-pln-cyan"><i class="fa-solid fa-desktop"></i></div>
+            <h3 class="ct">PC Desktop High-Spec HP</h3>
+            <p class="cp">Unit komputer individual di laboratorium berpendingin AC siap pakai untuk coding aplikasi web, render video promosi, dan desain grafis.</p>
+          </div>
+          <div class="card card-white">
+            <div class="ico bg-amber-500/10 text-amber-500"><i class="fa-solid fa-wifi"></i></div>
+            <h3 class="ct">Internet Dedicated Cepat</h3>
+            <p class="cp">Akses pita lebar fiber optic 24 jam tanpa batas kuota untuk riset materi, update repository GitHub, dan live deploy aplikasi.</p>
+          </div>
+          <div class="card card-white">
+            <div class="ico bg-emerald-500/10 text-emerald-500"><i class="fa-solid fa-bed"></i></div>
+            <h3 class="ct">Asrama Santri Nyaman</h3>
+            <p class="cp">Tempat tinggal gratis di lingkungan pesantren lengkap dengan ranjang, lemari pribadi, dan sanitasi yang bersih dan sehat.</p>
+          </div>
+          <div class="card card-white">
+            <div class="ico bg-red-500/10 text-red-500"><i class="fa-solid fa-utensils"></i></div>
+            <h3 class="ct">Konsumsi 3x Sehari</h3>
+            <p class="cp">Makan dan minum bergizi disiapkan 3 kali sehari bagi seluruh mahasantri selama menempuh masa pendidikan 1 tahun.</p>
+          </div>
+          <div class="card card-white">
+            <div class="ico bg-purple-500/10 text-purple-500"><i class="fa-solid fa-wallet"></i></div>
+            <h3 class="ct">Uang Saku Bulanan</h3>
+            <p class="cp">Dukungan uang saku setiap bulan dari dana ZISWAF YBM PLN untuk membantu kebutuhan operasional pribadi mahasantri.</p>
+          </div>
+          <div class="card card-white">
+            <div class="ico bg-cyan-500/10 text-cyan-600 dark:text-pln-cyan"><i class="fa-solid fa-stamp"></i></div>
+            <h3 class="ct">Uji Kompetensi BNSP Gratis</h3>
+            <p class="cp">Biaya uji sertifikasi profesi resmi negara ditanggung penuh agar santri memiliki bukti legalitas keahlian di dunia kerja.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Kalkulator Kelayakan Beasiswa -->
+    <section id="kalkulator" class="py-20 bg-slate-900 text-white">
+      <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+          <span class="chip text-amber-400 bg-amber-500/10 border-amber-500/30">Simulasi Mandiri Cepat</span>
+          <h2 class="text-2xl sm:text-4xl font-extrabold mt-3">Kalkulator Kelayakan Beasiswa PMBT</h2>
+          <p class="text-slate-300 mt-2 text-xs sm:text-sm">Uji kecocokan profil Anda dalam 1 menit sebelum mengirim berkas resmi. Hasil ini hanya simulasi; keputusan akhir ada pada tim panitia seleksi YBM PLN.</p>
+        </div>
+        <div class="p-6 sm:p-10 rounded-3xl bg-slate-950/80 border border-white/10 shadow-2xl">
+          <form id="eligibilityForm" onsubmit="calculateEligibility(event)" class="space-y-6">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+              <div>
+                <label for="calcGender" class="clabel">Jenis Kelamin</label>
+                <select id="calcGender" required class="cfield">
+                  <option value="male">Laki-laki (Ikhwan)</option>
+                  <option value="female">Perempuan (Akhwat)</option>
+                </select>
+              </div>
+              <div>
+                <label for="calcAge" class="clabel">Usia Saat Ini</label>
+                <input type="number" id="calcAge" min="15" max="30" value="18" required class="cfield">
+                <span class="text-[10px] text-slate-400 mt-1 block">Batas pendaftaran: 16–22 tahun</span>
+              </div>
+              <div>
+                <label for="calcEdu" class="clabel">Jenjang Pendidikan Terakhir</label>
+                <select id="calcEdu" required class="cfield">
+                  <option value="sma">SMA / SMK / MA / Sederajat</option>
+                  <option value="paket_c">Paket C (Setara SMA)</option>
+                  <option value="smp">SMP / MTs Sederajat</option>
+                  <option value="sarjana">Lulusan S1 / Diploma</option>
+                </select>
+              </div>
+              <div>
+                <label for="calcEcon" class="clabel">Kondisi Ekonomi Keluarga</label>
+                <select id="calcEcon" required class="cfield">
+                  <option value="dhuafa">Memiliki SKTM / KIP / Asnaf Zakat Dhuafa</option>
+                  <option value="yatim">Yatim / Piatu Kurang Mampu</option>
+                  <option value="mampu">Keluarga Mampu / Mandiri</option>
+                </select>
+              </div>
+              <div>
+                <label for="calcQuran" class="clabel">Kemampuan Membaca Al-Qur'an</label>
+                <select id="calcQuran" required class="cfield">
+                  <option value="lancar">Lancar Bertajwid / Mengenal Makhraj</option>
+                  <option value="bisa">Bisa Membaca Meskipun Terbata-bata</option>
+                  <option value="belum">Belum Bisa Mengenal Huruf Hijaiyah</option>
+                </select>
+              </div>
+              <div>
+                <label for="calcBoarding" class="clabel">Komitmen Asrama 1 Tahun</label>
+                <select id="calcBoarding" required class="cfield">
+                  <option value="siap">Siap Tinggal di Asrama Jombang</option>
+                  <option value="tidak">Tidak Siap / Ingin Pulang Pergi</option>
+                </select>
+              </div>
+            </div>
+            <div class="text-center pt-2">
+              <button type="submit" class="btn min-h-[48px] px-8 bg-gradient-to-r from-pln-sky to-pln-cyan text-slate-950 shadow-lg hover:brightness-110">
+                <i class="fa-solid fa-chart-pie"></i> Hitung Skor Kelayakan
+              </button>
+            </div>
+          </form>
+
+          <div id="calcResultBox" class="hidden mt-8 pt-8 border-t border-slate-800" aria-live="polite">
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
+              <div class="md:col-span-4 flex flex-col items-center text-center">
+                <div class="relative w-32 h-32">
+                  <svg class="w-full h-full" viewBox="0 0 100 100" aria-hidden="true">
+                    <circle cx="50" cy="50" r="42" stroke="rgba(255,255,255,0.1)" stroke-width="8" fill="none"/>
+                    <circle id="gaugeCircle" cx="50" cy="50" r="42" stroke="#00e5ff" stroke-width="8" stroke-dasharray="264" stroke-dashoffset="264" stroke-linecap="round" fill="none" class="gauge-circle"/>
+                  </svg>
+                  <div class="absolute inset-0 flex flex-col items-center justify-center">
+                    <span id="gaugeNumber" class="text-2xl font-black text-white">0%</span>
+                    <span class="text-[9px] uppercase font-bold text-slate-400">Kecocokan</span>
+                  </div>
+                </div>
+                <p id="gaugeStatus" class="mt-2 text-xs font-bold text-pln-cyan uppercase">Evaluasi</p>
+              </div>
+              <div class="md:col-span-8 space-y-2.5">
+                <h3 id="calcTitle" class="text-base font-bold text-white">Hasil Analisis</h3>
+                <p id="calcDesc" class="text-xs text-slate-300 leading-relaxed"></p>
+                <ul id="calcNotes" class="text-xs space-y-1 text-slate-400 pt-1"></ul>
+                <div id="calcAction" class="pt-2"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Alur Seleksi PMBT -->
+    <section id="alur-pmbt" class="py-20 bg-white dark:bg-pln-surface">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-3xl mx-auto mb-14">
+          <span class="chip chip-sky">Prosedur Penerimaan</span>
+          <h2 class="sec-h2">7 Alur Seleksi Masuk PMBT</h2>
+          <p class="sec-p">Seleksi bertahap menjamin beasiswa amanah dan jatuh ke tangan putra dhuafa yang bersungguh-sungguh ingin bertransformasi.</p>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+          <div class="step"><span class="stepn bg-pln-navy dark:bg-pln-sky text-white dark:text-slate-950">1</span><h3 class="ct !mb-1">Registrasi Online</h3><p class="cp">Pengisian biodata diri dan unggah berkas: SKTM, KTP, KK, Ijazah/SKL, serta foto kondisi rumah.</p></div>
+          <div class="step"><span class="stepn bg-pln-navy dark:bg-pln-sky text-white dark:text-slate-950">2</span><h3 class="ct !mb-1">Verifikasi Berkas</h3><p class="cp">Pemeriksaan keaslian dan kelengkapan dokumen asnaf dhuafa oleh panitia seleksi PMBT.</p></div>
+          <div class="step"><span class="stepn bg-pln-navy dark:bg-pln-sky text-white dark:text-slate-950">3</span><h3 class="ct !mb-1">Tes TPA / CBT</h3><p class="cp">Ujian daring menguji daya logika dasar, matematika komputasi, dan pemahaman umum TIK.</p></div>
+          <div class="step"><span class="stepn bg-pln-navy dark:bg-pln-sky text-white dark:text-slate-950">4</span><h3 class="ct !mb-1">Tes Tahsin Al-Qur'an</h3><p class="cp">Uji kemampuan membaca Al-Qur'an (tajwid dan kelancaran) dipandu asatidz kepesantrenan.</p></div>
+          <div class="step"><span class="stepn bg-amber-500 text-slate-950">5</span><h3 class="ct !mb-1">Wawancara Motivasi</h3><p class="cp">Penggalian motivasi belajar santri, komitmen berasrama, dan kesiapan mengangkat ekonomi orang tua.</p></div>
+          <div class="step"><span class="stepn bg-amber-500 text-slate-950">6</span><h3 class="ct !mb-1">Home Visit Asnaf</h3><p class="cp">Kunjungan survei faktual ke rumah oleh amil YBM PLN setempat guna memvalidasi data ekonomi riil.</p></div>
+          <div class="step !bg-emerald-50 dark:!bg-emerald-950/40 !border-emerald-200 dark:!border-emerald-800 md:col-span-2"><span class="stepn bg-emerald-600 text-white">7</span><h3 class="ct !mb-1">Pengumuman &amp; Kedatangan ke Pesantren</h3><p class="cp">Penetapan penerima beasiswa, penyambutan mahasantri di Jombang, dan pembagian perlengkapan asrama.</p></div>
+        </div>
+        <div class="mt-8 p-6 rounded-2xl bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div>
+            <h3 class="font-extrabold text-sm sm:text-base text-slate-900 dark:text-white">Jadwal Pendaftaran PMBT 2026/2027</h3>
+            <p class="text-xs text-slate-600 dark:text-slate-400 mt-0.5">Gelombang 1: <strong>20 Jan – 20 Mar</strong> | Gelombang 2: <strong>21 Mar – 10 Jul</strong></p>
+          </div>
+          <button type="button" onclick="openRegistrationWizard()" class="btn btn-primary w-full sm:w-auto">Isi Formulir Minat Sekarang</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ Accordion -->
+    <section id="faq" class="py-20 bg-slate-50 dark:bg-pln-dark">
+      <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-10">
+          <span class="chip chip-sky">Tanya Jawab</span>
+          <h2 class="sec-h2">Frequently Asked Questions (FAQ)</h2>
+          <p class="sec-p">Temukan jawaban atas pertanyaan yang paling sering diajukan seputar beasiswa PeTIK Jombang.</p>
+          <div class="mt-6 relative max-w-md mx-auto">
+            <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
+            <label for="faqSearchInput" class="sr-only">Cari pertanyaan</label>
+            <input type="search" id="faqSearchInput" oninput="filterFaq()" placeholder="Cari: biaya, laptop, usia, ijazah, asrama..." class="field !pl-10 !bg-white dark:!bg-slate-900">
+          </div>
+        </div>
+
+        <div id="faqList" class="space-y-3">
+          <div class="faq-card rounded-2xl card-white border border-slate-200 dark:border-slate-800 overflow-hidden">
+            <button type="button" onclick="toggleFaq(1)" aria-expanded="false" class="w-full px-5 py-4 text-left flex items-center justify-between gap-3 font-bold text-xs sm:text-sm text-slate-900 dark:text-white">
+              <span class="faq-q">Apakah benar seluruh program ini gratis 100% tanpa biaya tersembunyi?</span>
+              <i id="faqIcon-1" class="fa-solid fa-chevron-down text-xs text-slate-400 transition-transform"></i>
+            </button>
+            <div id="faqAns-1" class="faq-a hidden px-5 pb-4 text-xs text-slate-600 dark:text-slate-400 leading-relaxed border-t border-slate-100 dark:border-slate-800 pt-3">
+              Benar sekali. Seluruh biaya perkuliahan, laboratorium komputer, asrama, makan 3 kali sehari, uang saku bulanan, hingga biaya sertifikasi BNSP dibiayai 100% oleh Yayasan Baitul Maal (YBM) PT PLN (Persero). Santri tidak dipungut biaya apa pun.
+            </div>
+          </div>
+
+          <div class="faq-card rounded-2xl card-white border border-slate-200 dark:border-slate-800 overflow-hidden">
+            <button type="button" onclick="toggleFaq(2)" aria-expanded="false" class="w-full px-5 py-4 text-left flex items-center justify-between gap-3 font-bold text-xs sm:text-sm text-slate-900 dark:text-white">
+              <span class="faq-q">Apakah calon mahasantri wajib membawa laptop sendiri dari rumah?</span>
+              <i id="faqIcon-2" class="fa-solid fa-chevron-down text-xs text-slate-400 transition-transform"></i>
+            </button>
+            <div id="faqAns-2" class="faq-a hidden px-5 pb-4 text-xs text-slate-600 dark:text-slate-400 leading-relaxed border-t border-slate-100 dark:border-slate-800 pt-3">
+              Tidak wajib. PeTIK Jombang telah menyediakan unit komputer PC desktop spesifikasi tinggi di laboratorium berpendingin AC untuk setiap santri. Namun, bagi santri yang memiliki laptop pribadi, diperbolehkan membawanya untuk sarana belajar mandiri di kamar asrama.
+            </div>
+          </div>
+
+          <div class="faq-card rounded-2xl card-white border border-slate-200 dark:border-slate-800 overflow-hidden">
+            <button type="button" onclick="toggleFaq(3)" aria-expanded="false" class="w-full px-5 py-4 text-left flex items-center justify-between gap-3 font-bold text-xs sm:text-sm text-slate-900 dark:text-white">
+              <span class="faq-q">Apakah santri yang belum pernah belajar coding bisa mendaftar?</span>
+              <i id="faqIcon-3" class="fa-solid fa-chevron-down text-xs text-slate-400 transition-transform"></i>
+            </button>
+            <div id="faqAns-3" class="faq-a hidden px-5 pb-4 text-xs text-slate-600 dark:text-slate-400 leading-relaxed border-t border-slate-100 dark:border-slate-800 pt-3">
+              Sangat bisa! Kurikulum di PeTIK dirancang bertahap dari level pengenalan logika paling dasar. Banyak alumni yang sebelumnya berasal dari jurusan IPS, Keagamaan, atau Otomotif berhasil lulus dan kini bekerja sebagai programmer profesional.
+            </div>
+          </div>
+
+          <div class="faq-card rounded-2xl card-white border border-slate-200 dark:border-slate-800 overflow-hidden">
+            <button type="button" onclick="toggleFaq(4)" aria-expanded="false" class="w-full px-5 py-4 text-left flex items-center justify-between gap-3 font-bold text-xs sm:text-sm text-slate-900 dark:text-white">
+              <span class="faq-q">Berapa batas usia pendaftar dan apa saja syarat ijazahnya?</span>
+              <i id="faqIcon-4" class="fa-solid fa-chevron-down text-xs text-slate-400 transition-transform"></i>
+            </button>
+            <div id="faqAns-4" class="faq-a hidden px-5 pb-4 text-xs text-slate-600 dark:text-slate-400 leading-relaxed border-t border-slate-100 dark:border-slate-800 pt-3">
+              Pendaftar berusia maksimal 22 tahun saat mendaftar, berijazah minimal SMA/SMK/MA atau Paket C sederajat, belum menikah, dan bersedia tinggal di asrama selama 1 tahun penuh.
+            </div>
+          </div>
+        </div>
+        <p id="faqEmpty" class="hidden text-center text-xs text-slate-500 mt-4">Pertanyaan tidak ditemukan. Silakan hubungi admin via WhatsApp di +62 813-9396-3363.</p>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-pln-navy text-slate-300 text-xs border-t border-white/10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8">
+        
+        <div class="lg:col-span-5 space-y-3">
+          <div class="flex items-center gap-2">
+            <img src="https://webpetik.petikjombang.com/static/images/logo2.png" alt="Logo PeTIK" class="h-9 w-auto bg-white p-1 rounded-lg">
+            <div>
+              <p class="text-white font-extrabold text-sm">Pesantren PeTIK II Jombang</p>
+              <p class="text-[10px] text-sky-300">Pendidikan Vokasi TIK Binaan YBM PLN</p>
+            </div>
+          </div>
+          <p class="text-slate-400 leading-relaxed pr-4">
+            Lembaga pendidikan vokasi TIK berasrama 100% beasiswa penuh untuk generasi dhuafa. Mengubah mustahik menjadi muzakki melalui penguasaan teknologi digital bernilai tinggi.
+          </p>
+          <div class="flex items-center gap-3 pt-1">
+            <a href="https://instagram.com/petikjombang" target="_blank" rel="noopener noreferrer" aria-label="Instagram PeTIK" class="w-9 h-9 rounded-lg bg-white/10 hover:bg-pink-600 hover:text-white flex items-center justify-center transition-colors"><i class="fa-brands fa-instagram"></i></a>
+            <a href="https://youtube.com/@petikjombang4973" target="_blank" rel="noopener noreferrer" aria-label="YouTube PeTIK" class="w-9 h-9 rounded-lg bg-white/10 hover:bg-red-600 hover:text-white flex items-center justify-center transition-colors"><i class="fa-brands fa-youtube"></i></a>
+            <a href="https://wa.me/6281393963363" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp PeTIK" class="w-9 h-9 rounded-lg bg-white/10 hover:bg-emerald-600 hover:text-white flex items-center justify-center transition-colors"><i class="fa-brands fa-whatsapp"></i></a>
+          </div>
+        </div>
+
+        <div class="lg:col-span-3 space-y-2">
+          <p class="text-white font-bold text-xs uppercase tracking-wider mb-2">Tautan Cepat</p>
+          <ul class="space-y-1.5 text-slate-400">
+            <li><a href="#profil" class="hover:text-pln-cyan transition-colors">Filosofi M2M</a></li>
+            <li><a href="#jurusan" class="hover:text-pln-cyan transition-colors">Jurusan PPL &amp; Digital Marketing</a></li>
+            <li><a href="#jadwal" class="hover:text-pln-cyan transition-colors">Rutinitas Mahasantri 24 Jam</a></li>
+            <li><a href="#galeri" class="hover:text-pln-cyan transition-colors">Galeri Dokumentasi Asli</a></li>
+            <li><a href="#kalkulator" class="hover:text-pln-cyan transition-colors">Simulasi Skor Kelayakan</a></li>
+            <li><a href="#alur-pmbt" class="hover:text-pln-cyan transition-colors">Prosedur Seleksi PMBT</a></li>
+            <li><a href="https://monev-santri.petikjombang.com/pmbt" target="_blank" rel="noopener noreferrer" class="text-amber-400 hover:underline">Portal PMBT Resmi PLN &rarr;</a></li>
+          </ul>
+        </div>
+
+        <div class="lg:col-span-4 space-y-2">
+          <p class="text-white font-bold text-xs uppercase tracking-wider mb-2">Kontak &amp; Lokasi Kampus</p>
+          <p class="flex items-start gap-2 text-slate-400">
+            <i class="fa-solid fa-location-dot text-pln-cyan mt-1"></i>
+            <span>Jl. KH. Bisri Syansuri, RT.001 / RW.005, Plosogeneng, Kec. Jombang, Kab. Jombang, Jawa Timur 61416</span>
+          </p>
+          <p class="flex items-center gap-2 text-slate-400">
+            <i class="fa-brands fa-whatsapp text-emerald-400"></i>
+            <span>+62 813-9396-3363 (Admin PMBT)</span>
+          </p>
+          <p class="flex items-center gap-2 text-slate-400">
+            <i class="fa-solid fa-envelope text-sky-400"></i>
+            <span>petikjombang@gmail.com</span>
+          </p>
+          <div class="pt-2">
+            <a href="https://www.google.com/maps/search/?api=1&query=Pesantren+PeTIK+II+Jombang+Plosogeneng" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-3.5 py-2 rounded-lg bg-white/10 hover:bg-white/20 text-white transition-colors">
+              <i class="fa-solid fa-map-location-dot text-amber-400"></i>
+              <span>Buka di Google Maps</span>
+            </a>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="pt-8 mt-8 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between text-[11px] text-slate-400 gap-3">
+        <p>© 2026 Pesantren PeTIK II Jombang. NPSN: K9998392. Dikelola Yayasan Baitul Maal PT PLN (Persero).</p>
+        <p lang="ar" dir="rtl" class="font-arabic text-sm text-slate-300">مِنَ الْمُسْتَحِقِّ إِلَى الْمُزَكِّي</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Lightbox Modal Gallery Lengkap -->
+  <div id="lightboxModal" role="dialog" aria-modal="true" aria-label="Galeri foto" onclick="if(event.target===this)closeLightbox()" class="fixed inset-0 z-[1000] hidden bg-black/95 backdrop-blur-md flex items-center justify-center p-4">
+    <button type="button" id="lightboxClose" onclick="closeLightbox()" aria-label="Tutup galeri" class="absolute top-5 right-5 text-slate-300 hover:text-white text-2xl z-20 p-2">
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+    <button type="button" onclick="prevLightbox()" aria-label="Foto sebelumnya" class="absolute left-4 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-slate-800/80 hover:bg-slate-700 text-white flex items-center justify-center z-20 transition-all hover:scale-110">
+      <i class="fa-solid fa-chevron-left"></i>
+    </button>
+    <button type="button" onclick="nextLightbox()" aria-label="Foto selanjutnya" class="absolute right-4 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-slate-800/80 hover:bg-slate-700 text-white flex items-center justify-center z-20 transition-all hover:scale-110">
+      <i class="fa-solid fa-chevron-right"></i>
+    </button>
+    
+    <div class="max-w-4xl w-full text-center space-y-3 px-12">
+      <div class="relative inline-block max-h-[65vh] overflow-hidden rounded-2xl border border-white/20 shadow-2xl">
+        <img id="lightboxImg" src="" alt="Dokumentasi PeTIK Jombang" class="max-h-[65vh] w-auto max-w-full mx-auto object-contain">
+      </div>
+      <div>
+        <p id="lightboxCaption" class="text-sm font-bold text-white"></p>
+        <p id="lightboxCounter" class="text-xs text-slate-400 mt-0.5"></p>
+      </div>
+      <!-- Mini Thumbnails Carousel -->
+      <div id="lightboxThumbnails" class="flex justify-center items-center gap-2 pt-1 overflow-x-auto max-w-full pb-1"></div>
+    </div>
+  </div>
+
+  <!-- Multi-Step Registration Wizard Modal -->
+  <div id="wizardModal" role="dialog" aria-modal="true" aria-label="Formulir minat pendaftaran" class="fixed inset-0 z-[1000] hidden bg-black/80 backdrop-blur-sm flex items-start sm:items-center justify-center p-4 overflow-y-auto">
+    <div class="bg-white dark:bg-pln-surface border border-slate-200 dark:border-white/10 rounded-3xl max-w-lg w-full p-6 shadow-2xl relative my-6">
+      
+      <button type="button" onclick="closeRegistrationWizard()" aria-label="Tutup formulir" class="absolute top-4 right-4 w-9 h-9 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 flex items-center justify-center hover:text-red-500 transition-colors">
+        <i class="fa-solid fa-xmark text-sm"></i>
+      </button>
+
+      <div class="mb-5 pr-10">
+        <div class="flex items-center justify-between text-xs font-bold text-slate-500 dark:text-slate-400 mb-1.5">
+          <span id="stepTitleLabel">Langkah 1: Identitas Diri</span>
+          <span id="stepCountLabel">1 / 3</span>
+        </div>
+        <div class="w-full bg-slate-200 dark:bg-slate-800 h-1.5 rounded-full overflow-hidden">
+          <div id="stepProgressBar" class="bg-pln-sky h-full transition-all duration-300" style="width: 33.3%;"></div>
+        </div>
+      </div>
+
+      <form id="wizardForm" onsubmit="submitWizard(event)" class="space-y-4">
+        
+        <div id="step1Box" class="space-y-3">
+          <h3 class="font-extrabold text-sm text-slate-900 dark:text-white">Biodata Calon Mahasantri</h3>
+          <div>
+            <label for="wizName" class="flabel">Nama Lengkap</label>
+            <input type="text" id="wizName" required autocomplete="name" placeholder="Contoh: Muhammad Farhan" class="field">
+          </div>
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label for="wizPhone" class="flabel">Nomor WhatsApp</label>
+              <input type="tel" id="wizPhone" required autocomplete="tel" inputmode="tel" pattern="^(\+62|62|0)8[0-9]{8,12}$" title="Contoh: 081234567890" placeholder="0812xxxxxxxx" class="field">
+            </div>
+            <div>
+              <label for="wizAge" class="flabel">Usia (Tahun)</label>
+              <input type="number" id="wizAge" min="16" max="22" value="18" required class="field">
+            </div>
+          </div>
+          <div>
+            <label for="wizSchool" class="flabel">Asal Sekolah &amp; Tahun Lulus</label>
+            <input type="text" id="wizSchool" required placeholder="SMKN 1 Jombang (2025)" class="field">
+          </div>
+        </div>
+
+        <div id="step2Box" class="hidden space-y-3">
+          <h3 class="font-extrabold text-sm text-slate-900 dark:text-white">Validasi Kondisi Asnaf Dhuafa</h3>
+          <div>
+            <label for="wizSktm" class="flabel">Status Dokumen Tidak Mampu</label>
+            <select id="wizSktm" required class="field">
+              <option value="Memiliki SKTM">Memiliki Surat Keterangan Tidak Mampu (SKTM)</option>
+              <option value="Pemegang KIP/PKH/KKS">Pemegang Kartu KIP / PKH / KKS</option>
+              <option value="Yatim/Piatu Dhuafa">Yatim / Piatu Dhuafa</option>
+            </select>
+          </div>
+          <div>
+            <label for="wizJob" class="flabel">Pekerjaan Orang Tua / Wali</label>
+            <input type="text" id="wizJob" required placeholder="Buruh harian lepas / Petani / Pedagang kecil" class="field">
+          </div>
+          <div>
+            <label for="wizCity" class="flabel">Kota / Kabupaten Domisili</label>
+            <input type="text" id="wizCity" required placeholder="Jombang, Mojokerto, Nganjuk, Kediri, dll" class="field">
+          </div>
+        </div>
+
+        <div id="step3Box" class="hidden space-y-3">
+          <h3 class="font-extrabold text-sm text-slate-900 dark:text-white">Pilihan Jurusan &amp; Komitmen</h3>
+          <div>
+            <label for="wizMajor" class="flabel">Minat Jurusan Vokasi</label>
+            <select id="wizMajor" required class="field">
+              <option value="Pengembangan Perangkat Lunak (PPL)">Pengembangan Perangkat Lunak (PPL)</option>
+              <option value="Digital Marketing (DM)">Digital Marketing (DM)</option>
+            </select>
+          </div>
+          <div class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-xs text-slate-700 dark:text-slate-300 space-y-2">
+            <p class="font-bold text-amber-600 dark:text-amber-400"><i class="fa-solid fa-handshake mr-1"></i>Komitmen Mahasantri:</p>
+            <label class="flex items-start gap-2 cursor-pointer">
+              <input type="checkbox" required class="mt-0.5 rounded">
+              <span>Saya siap tinggal di asrama selama 1 tahun dan mematuhi seluruh tata tertib kepesantrenan.</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="pt-3 flex items-center justify-between gap-3">
+          <button type="button" id="wizPrevBtn" onclick="prevStep()" class="hidden px-4 py-2.5 rounded-xl bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-bold text-xs hover:bg-slate-300 dark:hover:bg-slate-700">
+            Kembali
+          </button>
+          <div class="ml-auto">
+            <button type="button" id="wizNextBtn" onclick="nextStep()" class="btn btn-primary shadow-md">
+              Lanjut &rarr;
+            </button>
+            <button type="submit" id="wizSubmitBtn" class="btn hidden bg-gradient-to-r from-emerald-500 to-teal-500 text-white shadow-md normal-case">
+              <i class="fa-brands fa-whatsapp text-sm mr-1"></i>Kirim ke WhatsApp Panitia
+            </button>
+          </div>
+        </div>
+
+      </form>
+    </div>
+  </div>
+
+  <!-- Floating Action Buttons -->
+  <div class="fixed bottom-6 right-6 z-40 flex flex-col items-center gap-3">
+    <a href="https://wa.me/6281393963363?text=Assalamualaikum%20Admin%20PeTIK%20II%20Jombang,%20saya%20ingin%20konsultasi%20mengenai%20Penerimaan%20Mahasantri%20Baru%20(PMBT)%20Beasiswa%20100%25." target="_blank" rel="noopener noreferrer" aria-label="Hubungi WhatsApp admin PMBT PeTIK Jombang" class="whatsapp-float ripple-host relative group w-12 h-12 rounded-full bg-emerald-500 hover:bg-emerald-400 text-white flex items-center justify-center text-2xl shadow-xl hover:scale-110 active:scale-95 transition-all">
+      <i class="fa-brands fa-whatsapp relative z-10"></i>
+    </a>
+
+    <button type="button" id="scrollTopBtn" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Kembali ke atas" class="relative w-11 h-11 rounded-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 text-slate-800 dark:text-white flex items-center justify-center text-sm shadow-xl opacity-0 pointer-events-none transition-all hover:scale-105 active:scale-95">
+      <svg class="absolute inset-0 w-full h-full -rotate-90 p-0.5 pointer-events-none" viewBox="0 0 44 44">
+        <circle cx="22" cy="22" r="19" stroke="currentColor" stroke-width="2.5" class="text-slate-200 dark:text-slate-800" fill="none" />
+        <circle id="scrollProgressCircle" cx="22" cy="22" r="19" stroke="#00e5ff" stroke-width="2.5" stroke-dasharray="119.4" stroke-dashoffset="119.4" stroke-linecap="round" fill="none" class="transition-all duration-100" />
+      </svg>
+      <i class="fa-solid fa-arrow-up relative z-10 text-xs"></i>
+    </button>
+  </div>
+
+  <script>
+    const $ = id => document.getElementById(id);
+    
+    // Smart SVG Fallback jika koneksi CDN eksternal bermasalah
+    const FALLBACK_IMG = 'data:image/svg+xml;charset=UTF-8,%3Csvg xmlns="http://www.w3.org/2000/svg" width="800" height="500" viewBox="0 0 800 500"%3E%3Crect width="800" height="500" fill="%23002B49"/%3E%3Ccircle cx="400" cy="210" r="55" fill="%230084C8" opacity="0.4"/%3E%3Cpolygon points="380,185 435,210 380,235" fill="%2300e5ff"/%3E%3Ctext x="50%25" y="315" font-family="Plus Jakarta Sans, sans-serif" font-weight="800" font-size="24" fill="%23FFFFFF" text-anchor="middle"%3EPesantren PeTIK II Jombang%3C/text%3E%3Ctext x="50%25" y="350" font-family="Plus Jakarta Sans, sans-serif" font-weight="600" font-size="14" fill="%2300e5ff" text-anchor="middle"%3EDokumentasi Vokasi IT %26 Kepesantrenan YBM PLN%3C/text%3E%3C/svg%3E';
+
+    /* 1. Scroll Lock Sinkron */
+    function syncScrollLock() {
+      const open = ['lightboxModal', 'wizardModal', 'mobileDrawerBackdrop'].some(id => {
+        const el = $(id);
+        return el && !el.classList.contains('hidden');
+      });
+      document.body.style.overflow = open ? 'hidden' : '';
+    }
+
+    /* 2. Pengelolaan Tema Gelap / Terang */
+    const htmlTag = document.documentElement;
+    function getSavedTheme() {
+      try { return localStorage.getItem('petik_theme') || 'dark'; } catch (e) { return 'dark'; }
+    }
+    function saveTheme(v) {
+      try { localStorage.setItem('petik_theme', v); } catch (e) {}
+    }
+    function applyTheme() {
+      const dark = getSavedTheme() !== 'light';
+      htmlTag.classList.toggle('dark', dark);
+      const sun = $('themeSunIcon');
+      const moon = $('themeMoonIcon');
+      if (sun) sun.classList.toggle('hidden', dark);
+      if (moon) moon.classList.toggle('hidden', !dark);
+    }
+    function toggleThemeMode() {
+      saveTheme(htmlTag.classList.contains('dark') ? 'light' : 'dark');
+      applyTheme();
+    }
+    applyTheme();
+
+    /* 3. Scroll Progress Bar & Cincin Scroll-to-Top */
+    window.addEventListener('scroll', () => {
+      const y = document.documentElement.scrollTop || document.body.scrollTop;
+      const h = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      const pct = h > 0 ? (y / h) * 100 : 0;
+      
+      const bar = $('scrollProgressBar');
+      if (bar) bar.style.width = pct + '%';
+      
+      const circle = $('scrollProgressCircle');
+      if (circle) {
+        const circumference = 119.4; // 2 * PI * 19
+        const offset = circumference - (pct / 100) * circumference;
+        circle.style.strokeDashoffset = Math.max(0, offset);
+      }
+
+      const show = y > 300;
+      const btn = $('scrollTopBtn');
+      if (btn) {
+        btn.classList.toggle('opacity-0', !show);
+        btn.classList.toggle('pointer-events-none', !show);
+      }
+    }, { passive: true });
+
+    /* 4. Drawer Menu Mobile */
+    function toggleMobileMenu() {
+      const drawer = $('mobileDrawer');
+      const backdrop = $('mobileDrawerBackdrop');
+      if (!drawer || !backdrop) return;
+      const opening = drawer.classList.contains('translate-x-full');
+      drawer.classList.toggle('translate-x-full', !opening);
+      backdrop.classList.toggle('hidden', !opening);
+      const toggleBtn = $('mobileMenuToggleBtn');
+      if (toggleBtn) toggleBtn.setAttribute('aria-expanded', opening);
+      syncScrollLock();
+    }
+
+    /* 5. Hero Constellation Canvas Interaktif */
+    const heroCanvas = $('heroParticleCanvas');
+    if (heroCanvas) {
+      const heroCtx = heroCanvas.getContext('2d');
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      let particles = [], rafId = null, resizeTimer;
+      const mousePos = { x: -1000, y: -1000, active: false };
+
+      function setupCanvas() {
+        if (!heroCanvas.parentElement) return;
+        heroCanvas.width = heroCanvas.parentElement.offsetWidth;
+        heroCanvas.height = heroCanvas.parentElement.offsetHeight;
+        const count = Math.floor(heroCanvas.width / 22);
+        particles = Array.from({ length: Math.min(count, 65) }, () => ({
+          x: Math.random() * heroCanvas.width,
+          y: Math.random() * heroCanvas.height,
+          radius: Math.random() * 1.8 + 1,
+          speedX: (Math.random() - 0.5) * 0.5,
+          speedY: (Math.random() - 0.5) * 0.5
+        }));
+      }
+
+      function drawParticles() {
+        heroCtx.clearRect(0, 0, heroCanvas.width, heroCanvas.height);
+        
+        for (let i = 0; i < particles.length; i++) {
+          const p = particles[i];
+          p.x += p.speedX;
+          p.y += p.speedY;
+
+          if (p.x < 0 || p.x > heroCanvas.width) p.speedX *= -1;
+          if (p.y < 0 || p.y > heroCanvas.height) p.speedY *= -1;
+
+          if (mousePos.active) {
+            const dx = p.x - mousePos.x;
+            const dy = p.y - mousePos.y;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+            if (dist < 110) {
+              const safeDist = Math.max(dist, 0.001);
+              const force = (110 - safeDist) / 110;
+              p.x += (dx / safeDist) * force * 2.8;
+              p.y += (dy / safeDist) * force * 2.8;
+            }
+          }
+
+          heroCtx.fillStyle = '#00e5ff';
+          heroCtx.beginPath();
+          heroCtx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+          heroCtx.fill();
+
+          for (let j = i + 1; j < particles.length; j++) {
+            const p2 = particles[j];
+            const dist = Math.hypot(p.x - p2.x, p.y - p2.y);
+            if (dist < 85) {
+              heroCtx.strokeStyle = `rgba(0, 229, 255, ${0.25 * (1 - dist / 85)})`;
+              heroCtx.lineWidth = 0.6;
+              heroCtx.beginPath();
+              heroCtx.moveTo(p.x, p.y);
+              heroCtx.lineTo(p2.x, p2.y);
+              heroCtx.stroke();
+            }
+          }
+        }
+
+        rafId = requestAnimationFrame(drawParticles);
+      }
+
+      heroCanvas.parentElement.addEventListener('mousemove', e => {
+        const rect = heroCanvas.getBoundingClientRect();
+        mousePos.x = e.clientX - rect.left;
+        mousePos.y = e.clientY - rect.top;
+        mousePos.active = true;
+      });
+      heroCanvas.parentElement.addEventListener('mouseleave', () => {
+        mousePos.active = false;
+      });
+
+      window.addEventListener('resize', () => {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(setupCanvas, 150);
+      });
+      setupCanvas();
+
+      if (!reduceMotion) {
+        new IntersectionObserver(([entry]) => {
+          if (entry.isIntersecting) { if (!rafId) drawParticles(); }
+          else { cancelAnimationFrame(rafId); rafId = null; }
+        }).observe(heroCanvas);
+      }
+    }
+
+    /* 6. Spotlight Card Effect Tracker */
+    function initSpotlightCards() {
+      document.querySelectorAll('.spotlight-card').forEach(card => {
+        if (card.dataset.spotlightReady) return;
+        card.dataset.spotlightReady = '1';
+
+        const updatePointer = e => {
+          const rect = card.getBoundingClientRect();
+          const x = e.clientX - rect.left;
+          const y = e.clientY - rect.top;
+          card.style.setProperty('--mouse-x', `${x}px`);
+          card.style.setProperty('--mouse-y', `${y}px`);
+
+          if (card.classList.contains('tilt-card') && matchMedia('(hover: hover) and (pointer: fine)').matches) {
+            const rx = ((y / rect.height) - .5) * -3.5;
+            const ry = ((x / rect.width) - .5) * 3.5;
+            card.style.transform = `perspective(900px) rotateX(${rx}deg) rotateY(${ry}deg) translateY(-2px)`;
+          }
+        };
+        card.addEventListener('pointermove', updatePointer, { passive: true });
+        card.addEventListener('pointerleave', () => {
+          card.style.transform = '';
+          card.style.setProperty('--mouse-x', '-500px');
+          card.style.setProperty('--mouse-y', '-500px');
+        });
+      });
+    }
+    initSpotlightCards();
+
+    /* 6B. Scroll Reveal Animation */
+    function initScrollReveal() {
+      const targets = document.querySelectorAll(
+        'section .sec-h2, section .chip, section .card, section .step, section .box-sm, section #galleryGrid > button, section [role="tabpanel"] > div'
+      );
+      if (!('IntersectionObserver' in window)) {
+        targets.forEach(el => el.classList.add('is-visible'));
+        return;
+      }
+      const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (!entry.isIntersecting) return;
+          entry.target.classList.add('is-visible');
+          observer.unobserve(entry.target);
+        });
+      }, { threshold: 0.12, rootMargin: '0px 0px -30px 0px' });
+
+      targets.forEach(el => {
+        if (el.classList.contains('reveal-on-scroll')) return;
+        el.classList.add('reveal-on-scroll');
+        observer.observe(el);
+      });
+    }
+    initScrollReveal();
+
+    /* 6C. Ripple Effect */
+    function initRippleEffects() {
+      document.querySelectorAll('.ripple-host, .btn').forEach(el => {
+        if (el.dataset.rippleReady) return;
+        el.dataset.rippleReady = '1';
+        el.classList.add('ripple-host');
+        el.addEventListener('pointerdown', e => {
+          if (e.pointerType === 'mouse' && e.button !== 0) return;
+          const rect = el.getBoundingClientRect();
+          const diameter = Math.max(rect.width, rect.height) * 1.8;
+          const ripple = document.createElement('span');
+          ripple.className = 'ripple-wave';
+          ripple.style.width = ripple.style.height = diameter + 'px';
+          ripple.style.left = (e.clientX - rect.left - diameter / 2) + 'px';
+          ripple.style.top = (e.clientY - rect.top - diameter / 2) + 'px';
+          el.appendChild(ripple);
+          ripple.addEventListener('animationend', () => ripple.remove(), { once: true });
+        }, { passive: true });
+      });
+    }
+    initRippleEffects();
+
+    /* 7. Animasi Counter Angka */
+    function initCounterStats() {
+      const counters = document.querySelectorAll('.counter-stat');
+      if (!counters.length) return;
+      const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const el = entry.target;
+            const target = parseInt(el.getAttribute('data-target'), 10);
+            const suffix = el.getAttribute('data-suffix') || '';
+            const duration = 1400;
+            const startTime = performance.now();
+
+            function stepCounter(currentTime) {
+              const elapsed = currentTime - startTime;
+              const progress = Math.min(elapsed / duration, 1);
+              const easeOut = 1 - Math.pow(1 - progress, 3);
+              const current = Math.floor(easeOut * target);
+              el.textContent = current + suffix;
+              if (progress < 1) {
+                requestAnimationFrame(stepCounter);
+              } else {
+                el.textContent = target + suffix;
+              }
+            }
+            requestAnimationFrame(stepCounter);
+            observer.unobserve(el);
+          }
+        });
+      }, { threshold: 0.6 });
+      counters.forEach(c => observer.observe(c));
+    }
+    initCounterStats();
+
+    /* 8. Tab Jurusan */
+    function switchJurusan(type) {
+      const contentPpl = $('contentPpl');
+      const contentDm = $('contentDm');
+      const tabBtnPpl = $('tabBtnPpl');
+      const tabBtnDm = $('tabBtnDm');
+      if (!contentPpl || !contentDm || !tabBtnPpl || !tabBtnDm) return;
+
+      const ppl = type === 'ppl';
+      contentPpl.classList.toggle('hidden', !ppl);
+      contentDm.classList.toggle('hidden', ppl);
+      
+      const base = 'px-5 py-2.5 rounded-xl text-xs sm:text-sm font-extrabold transition-all flex items-center gap-2 ';
+      const on = 'text-slate-950 shadow-md ';
+      const off = 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white';
+      
+      tabBtnPpl.className = base + (ppl ? on + 'bg-pln-sky' : off);
+      tabBtnDm.className = base + (ppl ? off : on + 'bg-amber-500');
+      tabBtnPpl.setAttribute('aria-selected', ppl ? 'true' : 'false');
+      tabBtnDm.setAttribute('aria-selected', ppl ? 'false' : 'true');
+    }
+    switchJurusan('ppl');
+
+    /* 9. Galeri Foto Lengkap (12 Foto Asli & Dokumentasi Resmi PeTIK Jombang) */
+    const galleryItems = [
+      {
+        url: "https://webpetik.petikjombang.com/static/images/2.jpg",
+        category: "kampus",
+        badge: "Kampus & Asrama",
+        color: "bg-slate-900/80 text-white",
+        title: "Gedung Kampus & Amfiteater Terbuka",
+        desc: "Kompleks pendidikan dua lantai modern di Desa Plosogeneng, Kec. Jombang.",
+        caption: "Gedung Kampus & Amfiteater Terbuka PeTIK II Jombang di Desa Plosogeneng"
+      },
+      {
+        url: "https://cdn.surabayapagi.com/po-content/uploads/2024/08/img2024080538639.webp",
+        category: "lab",
+        badge: "Laboratorium IT",
+        color: "bg-pln-sky/90 text-white",
+        title: "Laboratorium PC Desktop HP",
+        desc: "Praktikum intensif mahasantri berpeci dengan fasilitas PC individual high-spec.",
+        caption: "Praktikum Pemrograman di Laboratorium Komputer PC Desktop HP PeTIK Jombang"
+      },
+      {
+        url: "https://cdn-jpr.jawapos.com/images/2/2023/08/02/riz-adv-PLN-4-2511787260.jpeg",
+        category: "wisuda",
+        badge: "Ijazah & Wisuda",
+        color: "bg-amber-500/90 text-slate-950",
+        title: "Penyerahan Ijazah Kelulusan",
+        desc: "Diserahkan oleh Manajemen PLN UP3 Mojokerto & Pengasuh KH. Ahmad Habibul Amin.",
+        caption: "Penyerahan Kelulusan oleh Manajemen PLN UP3 Mojokerto & Pengasuh KH. Ahmad Habibul Amin"
+      },
+      {
+        url: "https://jatimkini.com/po-content/uploads/202508/pln-wisuda-mahasantri-petik-jombang.jpg",
+        category: "wisuda",
+        badge: "YBM PLN Jatim",
+        color: "bg-emerald-600/90 text-white",
+        title: "Tasyakuran Wisudawan & Pembina",
+        desc: "Momen kelulusan bersama Direktur PeTIK Dedy Widjaya & manajemen PLN UID Jatim.",
+        caption: "Tasyakuran Wisuda Mahasantri bersama Jajaran Pimpinan PT PLN UID Jawa Timur & YBM PLN"
+      },
+      {
+        url: "https://webpetik.petikjombang.com/static/images/1.jpg",
+        category: "kampus",
+        badge: "Civitas Akademika",
+        color: "bg-purple-600/90 text-white",
+        title: "Kebersamaan di Amfiteater Terbuka",
+        desc: "Panggung diskusi melingkar santri untuk apel pagi & ekspresi karya digital.",
+        caption: "Kebersamaan Mahasantri dan Civitas Akademika di Panggung Amfiteater Terbuka PeTIK Jombang"
+      },
+      {
+        url: "https://rricoid-assets.obs.ap-southeast-4.myhuaweicloud.com/berita/Surabaya/o/1755143852513-IMG-20250814-WA0006/rgvi0shl46yfu22.jpeg",
+        category: "wisuda",
+        badge: "Pengukuhan",
+        color: "bg-cyan-600/90 text-white",
+        title: "Pengalungan Gordon Kelulusan",
+        desc: "Pengukuhan mahasantri menjadi generasi profesional yang siap berdikari.",
+        caption: "Prosesi Sakral Pengalungan Gordon Kelulusan Mahasantri PeTIK II Jombang"
+      },
+      {
+        url: "https://webpetik.petikjombang.com/static/images/3.jpg",
+        category: "kampus",
+        badge: "Asrama Santri",
+        color: "bg-emerald-700/90 text-white",
+        title: "Kawasan Asrama Mahasantri",
+        desc: "Hunian berasrama yang tertib, bersih, dan asri untuk kenyamanan belajar santri.",
+        caption: "Kawasan Asrama Mahasantri Pesantren PeTIK II Jombang"
+      },
+      {
+        url: "https://webpetik.petikjombang.com/static/images/4.jpg",
+        category: "lab",
+        badge: "Digital Marketing",
+        color: "bg-amber-600/90 text-white",
+        title: "Praktek Digital Campaign & Riset",
+        desc: "Eksplorasi strategi pemasaran digital, riset audiens, dan analisis funnel konversi.",
+        caption: "Praktik Pembuatan Kampanye Digital & Konten Promosi Mahasantri PeTIK"
+      },
+      {
+        url: "https://webpetik.petikjombang.com/static/images/5.jpg",
+        category: "santri",
+        badge: "Tarbiyah Adab",
+        color: "bg-indigo-600/90 text-white",
+        title: "Kajian Rutin & Halaqah Diniyah",
+        desc: "Pendalaman fiqih ibadah, adab thalabul ilmi, dan penguatan nilai kepesantrenan.",
+        caption: "Halaqah Kepesantrenan dan Pembinaan Akhlak Mahasantri PeTIK Jombang"
+      },
+      {
+        url: "https://webpetik.petikjombang.com/static/images/6.jpg",
+        category: "santri",
+        badge: "Disiplin Santri",
+        color: "bg-blue-600/90 text-white",
+        title: "Apel Pagi & Pengarahan Harian",
+        desc: "Pembiasaan hidup disiplin, evaluasi tugas kelompok, dan briefing kegiatan.",
+        caption: "Apel Pagi Kedisiplinan Mahasantri di Area Panggung Terbuka Kampus"
+      },
+      {
+        url: "https://webpetik.petikjombang.com/static/images/7.jpg",
+        category: "lab",
+        badge: "Sertifikasi BNSP",
+        color: "bg-teal-600/90 text-white",
+        title: "Uji Kompetensi Profesi BNSP",
+        desc: "Asesmen uji keahlian resmi oleh Lembaga Sertifikasi Profesi Teknologi Informasi.",
+        caption: "Pelaksanaan Uji Kompetensi Sertifikasi BNSP Mahasantri PeTIK Jombang"
+      },
+      {
+        url: "https://webpetik.petikjombang.com/static/images/8.jpg",
+        category: "wisuda",
+        badge: "YBM PT PLN",
+        color: "bg-pln-navy/90 text-pln-cyan",
+        title: "Penyaluran Beasiswa YBM PLN",
+        desc: "Simbolis penyerahan beasiswa penuh 100% dan pembagian seragam vokasi.",
+        caption: "Penyaluran Amanah ZISWAF Pegawai PT PLN (Persero) Melalui Beasiswa PeTIK Jombang"
+      }
+    ];
+
+    let currentFilter = 'all';
+    function renderGallery() {
+      const container = $('galleryGrid');
+      if (!container) return;
+      const items = currentFilter === 'all' ? galleryItems : galleryItems.filter(g => g.category === currentFilter);
+      container.innerHTML = items.map((g) => {
+        const origIndex = galleryItems.indexOf(g);
+        return `
+          <button type="button" onclick="openLightbox(${origIndex})" class="spotlight-card group text-left rounded-2xl overflow-hidden bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm transition-all hover:shadow-xl hover:border-pln-sky/50">
+            <span class="relative block h-56 overflow-hidden">
+              <img src="${g.url}" alt="${g.title}" loading="lazy" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+              <span class="absolute top-3 left-3 px-2.5 py-1 rounded ${g.color} text-[10px] font-bold uppercase tracking-wider backdrop-blur-sm border border-white/10">${g.badge}</span>
+              <span class="absolute bottom-3 right-3 w-8 h-8 rounded-lg bg-black/60 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity backdrop-blur-md">
+                <i class="fa-solid fa-expand text-xs"></i>
+              </span>
+            </span>
+            <span class="block p-4 relative z-10">
+              <span class="block font-bold text-sm text-slate-900 dark:text-white group-hover:text-pln-sky transition-colors">${g.title}</span>
+              <span class="block text-xs text-slate-500 dark:text-slate-400 mt-1">${g.desc}</span>
+            </span>
+          </button>`;
+      }).join('');
+      initSpotlightCards();
+      initRippleEffects();
+      initScrollReveal();
+    }
+    renderGallery();
+
+    function filterGallery(category) {
+      currentFilter = category;
+      document.querySelectorAll('.gallery-filter-btn').forEach(btn => {
+        const active = btn.getAttribute('data-category') === category;
+        btn.className = `gallery-filter-btn px-3.5 py-2 rounded-xl text-xs font-bold transition-all ` + 
+          (active ? 'bg-pln-sky text-white shadow-sm' : 'bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:text-pln-sky');
+      });
+      renderGallery();
+    }
+
+    /* Fallback Cerdas untuk Gambar Rusak/Offline */
+    document.querySelectorAll('img').forEach(img => {
+      if (!img.hasAttribute('loading')) img.loading = 'lazy';
+    });
+    document.addEventListener('error', e => {
+      const img = e.target;
+      if (img.tagName === 'IMG' && !img.dataset.fb) { 
+        img.dataset.fb = '1'; 
+        img.src = FALLBACK_IMG; 
+      }
+    }, true);
+
+    let galleryIdx = 0, lastFocus = null;
+    function renderLightboxThumbnails() {
+      const thumbBox = $('lightboxThumbnails');
+      if (!thumbBox) return;
+      thumbBox.innerHTML = galleryItems.map((g, i) => `
+        <button type="button" onclick="showLightbox(${i})" class="lightbox-thumb w-12 h-10 rounded-lg overflow-hidden border-2 transition-all shrink-0 ${i === galleryIdx ? 'lightbox-thumb-active' : 'border-white/20 opacity-50 hover:opacity-100'}">
+          <img src="${g.url}" alt="${g.title}" class="w-full h-full object-cover">
+        </button>
+      `).join('');
+    }
+
+    function showLightbox(i) {
+      galleryIdx = (i + galleryItems.length) % galleryItems.length;
+      const g = galleryItems[galleryIdx];
+      const img = $('lightboxImg');
+      if (!img) return;
+      delete img.dataset.fb;
+      img.src = g.url;
+      img.alt = g.caption;
+      $('lightboxCaption').textContent = g.caption;
+      $('lightboxCounter').textContent = `Foto ke-${galleryIdx + 1} dari ${galleryItems.length} Dokumentasi`;
+      renderLightboxThumbnails();
+    }
+    function openLightbox(i) {
+      lastFocus = document.activeElement;
+      showLightbox(i);
+      const modal = $('lightboxModal');
+      if (modal) modal.classList.remove('hidden');
+      syncScrollLock();
+      const closeBtn = $('lightboxClose');
+      if (closeBtn) closeBtn.focus();
+    }
+    function closeLightbox() {
+      const modal = $('lightboxModal');
+      if (modal) modal.classList.add('hidden');
+      syncScrollLock();
+      if (lastFocus) lastFocus.focus();
+    }
+    function nextLightbox() { showLightbox(galleryIdx + 1); }
+    function prevLightbox() { showLightbox(galleryIdx - 1); }
+
+    window.addEventListener('keydown', e => {
+      const modal = $('lightboxModal');
+      const lbOpen = modal && !modal.classList.contains('hidden');
+      if (e.key === 'Escape') {
+        if (lbOpen) closeLightbox();
+        const wiz = $('wizardModal');
+        if (wiz && !wiz.classList.contains('hidden')) closeRegistrationWizard();
+        const drawer = $('mobileDrawerBackdrop');
+        if (drawer && !drawer.classList.contains('hidden')) toggleMobileMenu();
+      } else if (lbOpen && e.key === 'ArrowRight') nextLightbox();
+      else if (lbOpen && e.key === 'ArrowLeft') prevLightbox();
+    });
+
+    /* 10. Kalkulator Kelayakan Beasiswa */
+    function calculateEligibility(e) {
+      e.preventDefault();
+      const gender = $('calcGender').value;
+      const age = parseInt($('calcAge').value, 10);
+      const edu = $('calcEdu').value;
+      const econ = $('calcEcon').value;
+      const quran = $('calcQuran').value;
+      const boarding = $('calcBoarding').value;
+      if (Number.isNaN(age)) return;
+
+      let score = 0, blocked = false;
+      const notes = [];
+      const check = (pts, pass, okText, failText) => {
+        if (pass) score += pts; else blocked = true;
+        notes.push({ text: pass ? okText : failText, pass });
+      };
+
+      check(20, gender === 'male', "Sesuai kriteria khusus mahasantri putra (ikhwan).", "PeTIK II Jombang saat ini khusus menerima santri putra.");
+      check(20, age >= 16 && age <= 22, `Usia ${age} tahun sesuai batas pendaftaran (maks. 22 tahun).`, `Usia ${age} tahun di luar batas pendaftaran (16–22 tahun).`);
+      check(20, edu === 'sma' || edu === 'paket_c', "Pendidikan terakhir sesuai (SMA/SMK/MA/Paket C).", "Ijazah wajib minimal setara SMA sederajat.");
+      check(20, econ === 'dhuafa' || econ === 'yatim', "Memenuhi kriteria asnaf dhuafa penerima beasiswa YBM PLN.", "Beasiswa diutamakan bagi keluarga berpenghasilan rendah / memiliki SKTM.");
+      check(10, boarding === 'siap', "Komitmen tinggal di asrama 1 tahun terpenuhi.", "Wajib bersedia tinggal di asrama selama masa studi.");
+
+      if (quran === 'lancar') {
+        score += 10;
+        notes.push({ text: "Kemampuan membaca Al-Qur'an lancar sangat mendukung tes tahsin.", pass: true });
+      } else if (quran === 'bisa') {
+        score += 5;
+        notes.push({ text: "Bisa membaca Al-Qur'an, mantapkan tajwid dasar.", pass: true });
+      } else {
+        notes.push({ text: "Disarankan belajar membaca huruf hijaiyah untuk persiapan tes tahsin.", pass: false });
+      }
+
+      if (blocked) score = Math.min(score, 40);
+
+      const resultBox = $('calcResultBox');
+      const gaugeCircle = $('gaugeCircle');
+      const gaugeStatus = $('gaugeStatus');
+      const action = $('calcAction');
+      
+      resultBox.classList.remove('hidden');
+      gaugeCircle.style.strokeDashoffset = 264 - (score / 100) * 264;
+      $('gaugeNumber').textContent = score + '%';
+
+      const list = $('calcNotes');
+      list.innerHTML = '';
+      notes.forEach(n => {
+        const li = document.createElement('li');
+        li.className = 'flex items-start gap-1.5';
+        const icon = document.createElement('i');
+        icon.className = n.pass ? 'fa-solid fa-circle-check text-emerald-400 mt-0.5' : 'fa-solid fa-circle-xmark text-red-400 mt-0.5';
+        const span = document.createElement('span');
+        span.textContent = n.text;
+        li.append(icon, span);
+        list.appendChild(li);
+      });
+
+      const setLevel = (color, cls, label, title, desc, html) => {
+        gaugeCircle.setAttribute('stroke', color);
+        gaugeStatus.textContent = label;
+        gaugeStatus.className = `mt-2 text-xs font-bold uppercase ${cls}`;
+        $('calcTitle').textContent = title;
+        $('calcDesc').textContent = desc;
+        action.innerHTML = html;
+      };
+
+      if (score >= 80) {
+        setLevel('#10b981', 'text-emerald-400', 'Sangat Layak', 'Selamat! Anda Sangat Memenuhi Kriteria Utama PMBT',
+          'Profil Anda memenuhi standar penerima manfaat YBM PLN. Segera daftarkan diri Anda sebelum kuota tahun ajaran baru terpenuhi.',
+          `<button type="button" onclick="openRegistrationWizard()" class="btn bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-extrabold text-xs">Lanjut Isi Formulir Pendaftaran</button>`);
+      } else if (score >= 50) {
+        setLevel('#f59e0b', 'text-amber-400', 'Memenuhi Syarat', 'Cukup Memenuhi Syarat (Perlu Verifikasi Berkas)',
+          'Profil Anda berpeluang lolos dengan catatan kelengkapan dokumen asnaf dhuafa yang valid saat proses home visit.',
+          `<button type="button" onclick="openRegistrationWizard()" class="btn bg-amber-500 text-slate-950 font-extrabold text-xs">Tetap Ajukan Pendaftaran &amp; Konsultasi</button>`);
+      } else {
+        setLevel('#ef4444', 'text-red-400', 'Belum Memenuhi', 'Belum Memenuhi Kriteria Utama',
+          'Beasiswa PeTIK II Jombang dikhususkan bagi santri putra asnaf dhuafa yang bersedia tinggal di asrama dan memenuhi batas usia serta ijazah.',
+          `<a href="https://wa.me/6281393963363" target="_blank" rel="noopener noreferrer" class="btn bg-slate-800 text-white normal-case"><i class="fa-brands fa-whatsapp text-emerald-400"></i> Konsultasi Kasus Khusus via WA</a>`);
+      }
+
+      resultBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+
+    /* 11. Multi-Step Wizard Pendaftaran */
+    let wizardStep = 1;
+    function openRegistrationWizard() {
+      const modal = $('wizardModal');
+      if (!modal) return;
+      modal.classList.remove('hidden');
+      syncScrollLock();
+      renderStep(1);
+      const nameInput = $('wizName');
+      if (nameInput) nameInput.focus();
+    }
+    function closeRegistrationWizard() {
+      const modal = $('wizardModal');
+      if (!modal) return;
+      modal.classList.add('hidden');
+      syncScrollLock();
+    }
+    function renderStep(step) {
+      wizardStep = step;
+      [1, 2, 3].forEach(n => {
+        const box = $('step' + n + 'Box');
+        if (box) box.classList.toggle('hidden', n !== step);
+      });
+      const titles = ['Langkah 1: Identitas Diri', 'Langkah 2: Validasi Asnaf', 'Langkah 3: Peminatan & Komitmen'];
+      $('stepTitleLabel').textContent = titles[step - 1];
+      $('stepCountLabel').textContent = step + ' / 3';
+      $('stepProgressBar').style.width = (step / 3 * 100) + '%';
+      
+      $('wizPrevBtn').classList.toggle('hidden', step === 1);
+      $('wizNextBtn').classList.toggle('hidden', step === 3);
+      $('wizSubmitBtn').classList.toggle('hidden', step !== 3);
+    }
+    function nextStep() {
+      const box = $('step' + wizardStep + 'Box');
+      if (!box) return;
+      for (const f of box.querySelectorAll('input, select')) {
+        if (!f.reportValidity()) return;
+      }
+      if (wizardStep < 3) renderStep(wizardStep + 1);
+    }
+    function prevStep() {
+      if (wizardStep > 1) renderStep(wizardStep - 1);
+    }
+    function submitWizard(e) {
+      e.preventDefault();
+      const v = id => $(id).value.trim();
+      const text = [
+        'Assalamualaikum Admin PMBT PeTIK Jombang,', '',
+        'Saya berminat mendaftar beasiswa 100% vokasi TIK:',
+        `- Nama: ${v('wizName')}`,
+        `- Usia: ${v('wizAge')} tahun`,
+        `- Asal Sekolah: ${v('wizSchool')}`,
+        `- No. HP/WA: ${v('wizPhone')}`,
+        `- Status Berkas: ${v('wizSktm')}`,
+        `- Pekerjaan Orang Tua: ${v('wizJob')}`,
+        `- Domisili: ${v('wizCity')}`,
+        `- Jurusan Pilihan: ${v('wizMajor')}`, '',
+        'Mohon panduan untuk tahapan upload berkas resmi selanjutnya. Terima kasih!'
+      ].join('\n');
+      closeRegistrationWizard();
+      window.open('https://wa.me/6281393963363?text=' + encodeURIComponent(text), '_blank', 'noopener');
+    }
+
+    /* 12. FAQ Accordion & Live Filter */
+    function toggleFaq(idx) {
+      const ans = $('faqAns-' + idx);
+      const icon = $('faqIcon-' + idx);
+      if (!ans || !icon) return;
+      const open = ans.classList.toggle('hidden') === false;
+      icon.classList.toggle('rotate-180', open);
+      if (ans.previousElementSibling) {
+        ans.previousElementSibling.setAttribute('aria-expanded', open ? 'true' : 'false');
+      }
+    }
+    function filterFaq() {
+      const input = $('faqSearchInput');
+      if (!input) return;
+      const q = input.value.trim().toLowerCase();
+      let shown = 0;
+      document.querySelectorAll('.faq-card').forEach(card => {
+        const qEl = card.querySelector('.faq-q');
+        const aEl = card.querySelector('.faq-a');
+        const text = ((qEl ? qEl.textContent : '') + ' ' + (aEl ? aEl.textContent : '')).toLowerCase();
+        const hit = text.includes(q);
+        card.classList.toggle('hidden', !hit);
+        if (hit) shown++;
+      });
+      const emptyMsg = $('faqEmpty');
+      if (emptyMsg) emptyMsg.classList.toggle('hidden', shown > 0);
+    }
+  </script>
+</body>
+</html>
